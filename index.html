@@ -45,13 +45,11 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f4f7f9; }
         
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        /* Card Styles */
         .formal-card {
             background: #ffffff;
             border: 1px solid rgba(226, 232, 240, 0.8);
@@ -64,7 +62,6 @@
             border-color: rgba(155, 50, 42, 0.2);
         }
 
-        /* Animations */
         @keyframes fadeSlideUp {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
@@ -78,7 +75,6 @@
         .animate-pulse-glow { animation: pulseGlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
-        /* Kanban Column Scroll */
         .kanban-col::-webkit-scrollbar { width: 4px; }
     </style>
 </head>
@@ -94,6 +90,7 @@
                 </div>
                 <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Portal Pemuda Pemudi</h2>
                 <p class="text-sm text-slate-500 mt-1 font-medium">Bojong Pondok Terong 01</p>
+                <p class="text-[11px] text-brand-600 font-bold mt-2 bg-brand-50 py-1 px-3 rounded-full inline-block border border-brand-100">Password Akses: kaummuda01</p>
             </div>
             
             <form id="form-password" class="space-y-5">
@@ -102,23 +99,17 @@
                         <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                             <i class="fas fa-lock text-sm"></i>
                         </span>
-                        <input type="password" id="input-password" required class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none text-sm transition-all font-medium placeholder-slate-400" placeholder="Masukkan password akses...">
+                        <input type="password" id="input-password" autocomplete="current-password" required class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none text-sm transition-all font-medium placeholder-slate-400" placeholder="Masukkan password akses...">
                     </div>
                 </div>
                 <div id="password-error" class="text-rose-600 text-xs font-semibold hidden flex items-center gap-1.5 bg-rose-50 p-2.5 rounded-lg border border-rose-100">
                     <i class="fas fa-circle-exclamation"></i> Password yang Anda masukkan salah.
                 </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white py-3.5 rounded-2xl font-bold shadow-lg shadow-brand-600/30 hover:shadow-brand-600/40 hover:-translate-y-0.5 transition-all text-sm uppercase tracking-wide">
+                <button type="submit" class="w-full bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white py-3.5 rounded-2xl font-bold shadow-lg shadow-brand-600/30 hover:shadow-brand-600/40 hover:-translate-y-0.5 transition-all text-sm uppercase tracking-wide cursor-pointer">
                     Otorisasi Akses
                 </button>
             </form>
         </div>
-    </div>
-
-    <!-- Spinner Loading Fullscreen (Ditampilkan saat fetch data) -->
-    <div id="loading-overlay" class="fixed inset-0 bg-white/90 backdrop-blur-sm z-[150] flex flex-col items-center justify-center p-4 transition-all duration-300 hidden">
-         <i class="fas fa-circle-notch fa-spin text-4xl text-brand-600 mb-4"></i>
-         <p class="text-slate-600 font-bold text-sm animate-pulse">Sinkronisasi Data...</p>
     </div>
 
     <div id="desktop-sidebar-container" class="w-72 flex-shrink-0 hidden md:flex flex-col relative z-50 transition-all duration-300 shadow-2xl">
@@ -190,7 +181,7 @@
                     <p class="text-[9px] text-brand-600 font-bold uppercase tracking-wider">Bojong Pondok Terong 01</p>
                 </div>
             </div>
-            <button id="mobileMenuBtn" class="p-2.5 bg-slate-100 rounded-xl text-slate-600 hover:bg-slate-200 transition-colors">
+            <button id="mobileMenuBtn" class="p-2.5 bg-slate-100 rounded-xl text-slate-600 hover:bg-slate-200 transition-colors cursor-pointer">
                 <i class="fas fa-bars text-sm"></i>
             </button>
         </header>
@@ -204,7 +195,7 @@
                     </div>
                     <span class="font-bold text-white text-base">Menu Utama</span>
                 </div>
-                <button id="closeMenuBtn" class="text-slate-400 hover:text-white p-2 bg-slate-800 rounded-full w-10 h-10 flex items-center justify-center transition-colors"><i class="fas fa-times text-lg"></i></button>
+                <button id="closeMenuBtn" class="text-slate-400 hover:text-white p-2 bg-slate-800 rounded-full w-10 h-10 flex items-center justify-center transition-colors cursor-pointer"><i class="fas fa-times text-lg"></i></button>
             </div>
             <nav class="py-6 space-y-2.5">
                  <button onclick="navigate('dashboard'); toggleMobileMenu()" class="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl bg-brand-600/20 border border-brand-500/30 text-brand-100 font-bold text-sm text-left shadow-lg shadow-brand-900/20">
@@ -328,7 +319,7 @@
                                 <div class="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center"><i class="fas fa-tasks text-sm"></i></div>
                                 Tugas Terbaru Periode Ini
                             </h3>
-                            <button onclick="navigate('tugas')" class="text-xs font-bold text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg transition-colors">Lihat Semua</button>
+                            <button onclick="navigate('tugas')" class="text-xs font-bold text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">Lihat Semua</button>
                         </div>
                         <div id="dashboard-recent-tasks" class="space-y-3.5"></div>
                     </div>
@@ -338,7 +329,7 @@
                                 <div class="w-8 h-8 rounded-lg bg-accent-50 text-accent-600 flex items-center justify-center"><i class="fas fa-calendar-days text-sm"></i></div>
                                 Rundown Acara Terdekat
                             </h3>
-                            <button onclick="navigate('rundown')" class="text-xs font-bold text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg transition-colors">Lihat Semua</button>
+                            <button onclick="navigate('rundown')" class="text-xs font-bold text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">Lihat Semua</button>
                         </div>
                         <div id="dashboard-upcoming-rundown" class="space-y-3.5"></div>
                     </div>
@@ -352,7 +343,7 @@
                         <h2 class="text-3xl font-extrabold text-slate-900 mt-2 tracking-tight">Periode Kegiatan</h2>
                         <p class="text-slate-500 text-sm mt-1 font-medium">Kelola masa kepengurusan, tahun anggaran, atau periode event yang membedakan data organisasi.</p>
                     </div>
-                    <button onclick="openModal('modal-periode')" class="bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-5 py-3 rounded-2xl shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:-translate-y-0.5 text-sm font-bold transition-all flex items-center gap-2">
+                    <button onclick="openModal('modal-periode')" class="bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-5 py-3 rounded-2xl shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:-translate-y-0.5 text-sm font-bold transition-all flex items-center gap-2 cursor-pointer">
                         <i class="fas fa-plus text-xs"></i> Tambah Periode
                     </button>
                 </header>
@@ -389,7 +380,7 @@
                         </div>
                         <p class="text-slate-500 text-sm mt-1 font-medium">Daftar pengurus inti, seksi bidang, dan anggota khusus berdasarkan periode yang dipilih.</p>
                     </div>
-                    <button onclick="openModal('modal-panitia')" class="bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-5 py-3 rounded-2xl shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:-translate-y-0.5 text-sm font-bold transition-all flex items-center gap-2">
+                    <button onclick="openModal('modal-panitia')" class="bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-5 py-3 rounded-2xl shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:-translate-y-0.5 text-sm font-bold transition-all flex items-center gap-2 cursor-pointer">
                         <i class="fas fa-user-plus text-xs"></i> Tambah Pengurus
                     </button>
                 </header>
@@ -426,7 +417,7 @@
                         </div>
                         <p class="text-slate-500 text-sm mt-1 font-medium">Papan kendali penugasan dengan rincian PIC khusus berdasarkan periode yang dipilih.</p>
                     </div>
-                    <button onclick="openModal('modal-tugas')" class="bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-5 py-3 rounded-2xl shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:-translate-y-0.5 text-sm font-bold transition-all flex items-center gap-2">
+                    <button onclick="openModal('modal-tugas')" class="bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-5 py-3 rounded-2xl shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:-translate-y-0.5 text-sm font-bold transition-all flex items-center gap-2 cursor-pointer">
                         <i class="fas fa-plus text-xs"></i> Tambah Tugas
                     </button>
                 </header>
@@ -475,7 +466,7 @@
                         </div>
                         <p class="text-slate-500 text-sm mt-1 font-medium">Susunan waktu pelaksanaan kegiatan secara kronologis berdasarkan periode yang dipilih.</p>
                     </div>
-                    <button onclick="openModal('modal-rundown')" class="bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-5 py-3 rounded-2xl shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:-translate-y-0.5 text-sm font-bold transition-all flex items-center gap-2">
+                    <button onclick="openModal('modal-rundown')" class="bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-5 py-3 rounded-2xl shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:-translate-y-0.5 text-sm font-bold transition-all flex items-center gap-2 cursor-pointer">
                         <i class="fas fa-plus text-xs"></i> Tambah Jadwal
                     </button>
                 </header>
@@ -502,7 +493,7 @@
                         </div>
                         <p class="text-slate-500 text-sm mt-1 font-medium">Kelola kategori usia, daftar peserta, dan bagan pertandingan berdasarkan periode yang dipilih.</p>
                     </div>
-                    <button onclick="openModal('modal-lomba')" class="bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-5 py-3 rounded-2xl shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:-translate-y-0.5 text-sm font-bold transition-all flex items-center gap-2">
+                    <button onclick="openModal('modal-lomba')" class="bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-5 py-3 rounded-2xl shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:-translate-y-0.5 text-sm font-bold transition-all flex items-center gap-2 cursor-pointer">
                         <i class="fas fa-plus text-xs"></i> Buat Lomba Baru
                     </button>
                 </header>
@@ -526,7 +517,7 @@
                         </div>
                         <p class="text-slate-500 text-sm mt-1 font-medium">Buku besar pencatatan arus kas khusus berdasarkan periode yang dipilih.</p>
                     </div>
-                    <button onclick="openModal('modal-keuangan')" class="bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-5 py-3 rounded-2xl shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:-translate-y-0.5 text-sm font-bold transition-all flex items-center gap-2">
+                    <button onclick="openModal('modal-keuangan')" class="bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white px-5 py-3 rounded-2xl shadow-lg shadow-brand-600/20 hover:shadow-brand-600/40 hover:-translate-y-0.5 text-sm font-bold transition-all flex items-center gap-2 cursor-pointer">
                         <i class="fas fa-plus text-xs"></i> Tambah Transaksi
                     </button>
                 </header>
@@ -594,7 +585,7 @@
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200 transform scale-95 transition-transform duration-300" id="modal-periode-content">
             <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                 <h3 class="font-extrabold text-slate-900 text-base">Tambah Periode Kegiatan</h3>
-                <button onclick="closeModal('modal-periode')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors"><i class="fas fa-times"></i></button>
+                <button onclick="closeModal('modal-periode')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer"><i class="fas fa-times"></i></button>
             </div>
             <form id="form-periode" class="p-6 space-y-5 text-sm">
                 <div>
@@ -606,12 +597,12 @@
                     <input type="text" id="periode-rentang" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium" placeholder="Cth: 15 - 17 Agustus 2026">
                 </div>
                 <div class="flex items-center gap-3 pt-2 bg-brand-50/50 p-3 rounded-xl border border-brand-100">
-                    <input type="checkbox" id="periode-aktif" class="w-5 h-5 text-brand-600 rounded-md border-brand-300 focus:ring-brand-600 accent-brand-600">
-                    <label for="periode-aktif" class="text-xs font-bold text-brand-900">Jadikan Periode Aktif Saat Ini</label>
+                    <input type="checkbox" id="periode-aktif" class="w-5 h-5 text-brand-600 rounded-md border-brand-300 focus:ring-brand-600 accent-brand-600 cursor-pointer">
+                    <label for="periode-aktif" class="text-xs font-bold text-brand-900 cursor-pointer">Jadikan Periode Aktif Saat Ini</label>
                 </div>
                 <div class="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-2">
-                    <button type="button" onclick="closeModal('modal-periode')" class="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors">Batal</button>
-                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all">Simpan</button>
+                    <button type="button" onclick="closeModal('modal-periode')" class="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors cursor-pointer">Batal</button>
+                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all cursor-pointer">Simpan</button>
                 </div>
             </form>
         </div>
@@ -622,12 +613,12 @@
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200 transform scale-95 transition-transform duration-300" id="modal-panitia-content">
             <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                 <h3 class="font-extrabold text-slate-900 text-base">Tambah Pengurus / Anggota</h3>
-                <button onclick="closeModal('modal-panitia')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors"><i class="fas fa-times"></i></button>
+                <button onclick="closeModal('modal-panitia')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer"><i class="fas fa-times"></i></button>
             </div>
             <form id="form-panitia" class="p-6 space-y-5 text-sm">
                 <div>
                     <label class="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Periode Kegiatan</label>
-                    <select id="panitia-periode" required class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold text-brand-800">
+                    <select id="panitia-periode" required class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold text-brand-800 cursor-pointer">
                     </select>
                 </div>
                 <div>
@@ -636,7 +627,7 @@
                 </div>
                 <div>
                     <label class="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Divisi</label>
-                    <select id="panitia-divisi" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium">
+                    <select id="panitia-divisi" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium cursor-pointer">
                         <option value="">Pilih Divisi...</option>
                         <option value="Inti">Inti (Ketua, Wakil, Sekretaris, Bendahara)</option>
                         <option value="Acara">Seksi Acara</option>
@@ -652,8 +643,8 @@
                     <input type="text" id="panitia-peran" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium" placeholder="Cth: Wakil Ketua / Anggota">
                 </div>
                 <div class="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-2">
-                    <button type="button" onclick="closeModal('modal-panitia')" class="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors">Batal</button>
-                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all">Simpan</button>
+                    <button type="button" onclick="closeModal('modal-panitia')" class="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors cursor-pointer">Batal</button>
+                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all cursor-pointer">Simpan</button>
                 </div>
             </form>
         </div>
@@ -664,12 +655,12 @@
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200 transform scale-95 transition-transform duration-300" id="modal-tugas-content">
             <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                 <h3 class="font-extrabold text-slate-900 text-base">Tambah Tugas Baru</h3>
-                <button onclick="closeModal('modal-tugas')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors"><i class="fas fa-times"></i></button>
+                <button onclick="closeModal('modal-tugas')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer"><i class="fas fa-times"></i></button>
             </div>
             <form id="form-tugas" class="p-6 space-y-4 text-sm max-h-[75vh] overflow-y-auto">
                 <div>
                     <label class="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Periode Kegiatan</label>
-                    <select id="tugas-periode" required class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold text-brand-800">
+                    <select id="tugas-periode" required class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold text-brand-800 cursor-pointer">
                     </select>
                 </div>
                 <div>
@@ -683,28 +674,28 @@
                 <div class="bg-slate-50/80 p-4 rounded-2xl border border-slate-200/60 space-y-4">
                     <div>
                         <label class="block text-[11px] font-extrabold text-brand-700 uppercase tracking-wider mb-2"><i class="fas fa-shopping-cart mr-1"></i> PIC Belanja Bahan</label>
-                        <select id="tugas-pic-belanja" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none font-medium">
+                        <select id="tugas-pic-belanja" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none font-medium cursor-pointer">
                             <option value="">Pilih Pengurus (Opsional)...</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-[11px] font-extrabold text-accent-700 uppercase tracking-wider mb-2"><i class="fas fa-bolt mr-1"></i> PIC Pelaksanaan</label>
-                        <select id="tugas-pic-pelaksanaan" required class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent-500/20 focus:border-accent-600 outline-none font-medium">
+                        <select id="tugas-pic-pelaksanaan" required class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-accent-500/20 focus:border-accent-600 outline-none font-medium cursor-pointer">
                             <option value="">Pilih Pengurus Pelaksanaan...</option>
                         </select>
                     </div>
                 </div>
                 <div>
                     <label class="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Prioritas</label>
-                    <select id="tugas-prioritas" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium">
+                    <select id="tugas-prioritas" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium cursor-pointer">
                         <option value="low">Normal</option>
                         <option value="medium" selected>Penting</option>
                         <option value="high">Mendesak (High)</option>
                     </select>
                 </div>
                 <div class="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-2">
-                    <button type="button" onclick="closeModal('modal-tugas')" class="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors">Batal</button>
-                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all">Simpan</button>
+                    <button type="button" onclick="closeModal('modal-tugas')" class="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors cursor-pointer">Batal</button>
+                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all cursor-pointer">Simpan</button>
                 </div>
             </form>
         </div>
@@ -715,17 +706,17 @@
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200 transform scale-95 transition-transform duration-300" id="modal-rundown-content">
             <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                 <h3 class="font-extrabold text-slate-900 text-base">Tambah Jadwal Rundown</h3>
-                <button onclick="closeModal('modal-rundown')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors"><i class="fas fa-times"></i></button>
+                <button onclick="closeModal('modal-rundown')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer"><i class="fas fa-times"></i></button>
             </div>
             <form id="form-rundown" class="p-6 space-y-4 text-sm max-h-[75vh] overflow-y-auto">
                 <div>
                     <label class="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Periode Kegiatan</label>
-                    <select id="rundown-periode" required class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold text-brand-800">
+                    <select id="rundown-periode" required class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold text-brand-800 cursor-pointer">
                     </select>
                 </div>
                 <div>
                     <label class="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Hari / Tanggal Acara</label>
-                    <select id="rundown-hari" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold">
+                    <select id="rundown-hari" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold cursor-pointer">
                         <option value="Hari 1">Hari 1</option>
                         <option value="Hari 2">Hari 2</option>
                         <option value="Hari 3">Hari 3</option>
@@ -751,7 +742,7 @@
                 </div>
                 <div>
                     <label class="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Hubungkan Kategori Usia Lomba (Opsional)</label>
-                    <select id="rundown-kategori" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium">
+                    <select id="rundown-kategori" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium cursor-pointer">
                         <option value="">-- Umum / Tanpa Lomba Khusus --</option>
                         <option value="Anak-anak (Bawah 12 Thn)">Anak-anak (Bawah 12 Tahun)</option>
                         <option value="Remaja (13 - 18 Thn)">Remaja (13 - 18 Tahun)</option>
@@ -764,8 +755,8 @@
                     <input type="text" id="rundown-pic" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium" placeholder="Nama PIC">
                 </div>
                 <div class="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-2">
-                    <button type="button" onclick="closeModal('modal-rundown')" class="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors">Batal</button>
-                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all">Simpan</button>
+                    <button type="button" onclick="closeModal('modal-rundown')" class="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors cursor-pointer">Batal</button>
+                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all cursor-pointer">Simpan</button>
                 </div>
             </form>
         </div>
@@ -776,17 +767,17 @@
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200 transform scale-95 transition-transform duration-300" id="modal-keuangan-content">
             <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                 <h3 class="font-extrabold text-slate-900 text-base">Tambah Transaksi Kas</h3>
-                <button onclick="closeModal('modal-keuangan')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors"><i class="fas fa-times"></i></button>
+                <button onclick="closeModal('modal-keuangan')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer"><i class="fas fa-times"></i></button>
             </div>
             <form id="form-keuangan" class="p-6 space-y-5 text-sm">
                 <div>
                     <label class="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Periode Kegiatan</label>
-                    <select id="keuangan-periode" required class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold text-brand-800">
+                    <select id="keuangan-periode" required class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold text-brand-800 cursor-pointer">
                     </select>
                 </div>
                 <div>
                     <label class="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Tipe Transaksi</label>
-                    <select id="keuangan-tipe" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold">
+                    <select id="keuangan-tipe" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold cursor-pointer">
                         <option value="in">Pemasukan (+)</option>
                         <option value="out">Pengeluaran (-)</option>
                     </select>
@@ -803,8 +794,8 @@
                     </div>
                 </div>
                 <div class="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-2">
-                    <button type="button" onclick="closeModal('modal-keuangan')" class="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors">Batal</button>
-                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all">Simpan</button>
+                    <button type="button" onclick="closeModal('modal-keuangan')" class="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors cursor-pointer">Batal</button>
+                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all cursor-pointer">Simpan</button>
                 </div>
             </form>
         </div>
@@ -815,12 +806,12 @@
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200 transform scale-95 transition-transform duration-300" id="modal-lomba-content">
             <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                 <h3 class="font-extrabold text-slate-900 text-base">Buat Perlombaan Baru</h3>
-                <button onclick="closeModal('modal-lomba')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors"><i class="fas fa-times"></i></button>
+                <button onclick="closeModal('modal-lomba')" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer"><i class="fas fa-times"></i></button>
             </div>
             <form id="form-lomba" class="p-6 space-y-5 text-sm">
                 <div>
                     <label class="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Periode Kegiatan</label>
-                    <select id="lomba-periode" required class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold text-brand-800">
+                    <select id="lomba-periode" required class="w-full px-4 py-3 bg-brand-50 border border-brand-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-bold text-brand-800 cursor-pointer">
                     </select>
                 </div>
                 <div>
@@ -830,14 +821,14 @@
                 <div class="flex gap-4">
                     <div class="flex-1">
                         <label class="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Jenis Lomba</label>
-                        <select id="lomba-jenis" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium">
+                        <select id="lomba-jenis" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium cursor-pointer">
                             <option value="Individu">Individu</option>
                             <option value="Tim / Beregu">Tim / Beregu</option>
                         </select>
                     </div>
                     <div class="flex-1">
                         <label class="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">Kategori Usia</label>
-                        <select id="lomba-kategori" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium">
+                        <select id="lomba-kategori" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-600/10 focus:border-brand-600 outline-none transition-all font-medium cursor-pointer">
                             <option value="Anak-anak (Bawah 12 Thn)">Anak-anak (Bawah 12 Tahun)</option>
                             <option value="Remaja (13 - 18 Thn)">Remaja (13 - 18 Tahun)</option>
                             <option value="Dewasa (Diatas 18 Thn)">Dewasa (Diatas 18 Tahun)</option>
@@ -846,8 +837,8 @@
                     </div>
                 </div>
                 <div class="pt-4 flex justify-end gap-3 border-t border-slate-100 mt-2">
-                    <button type="button" onclick="closeModal('modal-lomba')" class="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors">Batal</button>
-                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all">Simpan</button>
+                    <button type="button" onclick="closeModal('modal-lomba')" class="px-5 py-2.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl font-bold transition-colors cursor-pointer">Batal</button>
+                    <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 text-white rounded-xl font-bold shadow-md hover:shadow-lg transition-all cursor-pointer">Simpan</button>
                 </div>
             </form>
         </div>
@@ -861,7 +852,7 @@
                     <h3 class="font-black text-slate-900 text-lg" id="detail-lomba-title">Detail Perlombaan</h3>
                     <p class="text-xs font-bold text-brand-600" id="detail-lomba-kategori">Kategori Usia</p>
                 </div>
-                <button onclick="closeDetailLomba()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors"><i class="fas fa-times"></i></button>
+                <button onclick="closeDetailLomba()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors cursor-pointer"><i class="fas fa-times"></i></button>
             </div>
             
             <div class="flex-1 overflow-y-auto p-6">
@@ -873,7 +864,7 @@
                             
                             <form id="form-peserta-lomba" class="flex gap-2 mb-4">
                                 <input type="text" id="input-peserta-lomba" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-600/20 focus:border-brand-600 outline-none text-sm font-medium" placeholder="Nama peserta individu...">
-                                <button type="submit" id="btn-tambah-peserta" class="px-5 py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl transition-all shadow-md hover:shadow-lg font-bold text-sm flex items-center justify-center gap-1 flex-shrink-0">
+                                <button type="submit" id="btn-tambah-peserta" class="px-5 py-3 bg-brand-600 hover:bg-brand-700 text-white rounded-xl transition-all shadow-md hover:shadow-lg font-bold text-sm flex items-center justify-center gap-1 flex-shrink-0 cursor-pointer">
                                     <i class="fas fa-plus mr-1"></i> Tambah
                                 </button>
                             </form>
@@ -889,7 +880,7 @@
                         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm h-full flex flex-col">
                             <div class="flex justify-between items-center mb-5 pb-3 border-b border-slate-100">
                                 <h4 class="font-extrabold text-slate-800 text-sm flex items-center gap-2"><i class="fas fa-sitemap text-accent-500"></i> Bagan Pertandingan (3 Peserta/Match)</h4>
-                                <button onclick="generateNextRound()" id="btn-generate-round" class="bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-md transition-all"><i class="fas fa-random mr-1"></i> Buat Babak Selanjutnya</button>
+                                <button onclick="generateNextRound()" id="btn-generate-round" class="bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-md transition-all cursor-pointer"><i class="fas fa-random mr-1"></i> Buat Babak Selanjutnya</button>
                             </div>
                             
                             <div id="bagan-container" class="flex-1 overflow-x-auto overflow-y-auto space-y-8 pb-4"></div>
@@ -904,156 +895,130 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed bottom-6 right-6 z-[250] flex flex-col gap-3 pointer-events-none"></div>
 
-    <script>
-        // ==========================================
-        // GANTI URL INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
-        // ==========================================
-        const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxE7Rp5HFidbR40bhftnH71v_YLMK_vgKC1uOOhVQY0aZx8JjqtiAUUeixbLiRvrWI/exec"; 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
         const APP_PASSWORD = "kaummuda01"; 
+
+        // Cek sesi login saat halaman pertama kali dibuka
+        if (sessionStorage.getItem('auth_granted') === 'true') {
+            const overlay = document.getElementById('auth-overlay');
+            if (overlay) overlay.style.display = 'none';
+        }
 
         document.getElementById('form-password').addEventListener('submit', (e) => {
             e.preventDefault();
-            const val = document.getElementById('input-password').value;
+            const val = document.getElementById('input-password').value.trim();
             const errEl = document.getElementById('password-error');
             const overlay = document.getElementById('auth-overlay');
             
             if (val === APP_PASSWORD) {
-                overlay.classList.add('opacity-0');
-                setTimeout(() => { overlay.style.display = 'none'; }, 300);
                 sessionStorage.setItem('auth_granted', 'true');
+                if (overlay) {
+                    overlay.classList.add('opacity-0');
+                    setTimeout(() => { overlay.style.display = 'none'; }, 300);
+                }
                 showToast('Otorisasi berhasil. Selamat datang!');
             } else {
                 errEl.classList.remove('hidden');
-                overlay.querySelector('div').classList.add('animate-[shake_0.5s_ease-in-out]');
-                setTimeout(() => overlay.querySelector('div').classList.remove('animate-[shake_0.5s_ease-in-out]'), 500);
+                const box = overlay.querySelector('div');
+                if (box) {
+                    box.classList.add('animate-[shake_0.5s_ease-in-out]');
+                    setTimeout(() => box.classList.remove('animate-[shake_0.5s_ease-in-out]'), 500);
+                }
             }
         });
 
-        if (sessionStorage.getItem('auth_granted') === 'true') {
-            document.getElementById('auth-overlay').style.display = 'none';
-        }
-
         window.state = { panitia: [], tugas: [], rundown: [], keuangan: [], periode: [], perlombaan: [] };
 
-        // --- Fungsi Fetch ke App Script ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'project-organisasi-01';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "AIzaSyDummyKeyForStandaloneHosting",
+            authDomain: "organisasi-km01.firebaseapp.com",
+            projectId: "organisasi-km01"
+        };
         
-        function showLoading(show) {
-            const el = document.getElementById('loading-overlay');
-            if (show) {
-                el.classList.remove('hidden');
-            } else {
-                el.classList.add('hidden');
-            }
+        let app, db, auth;
+        let currentUserId = null;
+
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+        } catch (e) {
+            console.error("Firebase init error:", e);
         }
 
-        async function initDataListeners() {
-            showLoading(true);
+        async function initAuth() {
+            if (!auth) return;
             try {
-                const response = await fetch(APP_SCRIPT_URL);
-                const data = await response.json();
-                
-                if (data.error) {
-                   console.error("Error dari server:", data.error);
-                   showToast("Gagal memuat data dari server", "error");
-                   showLoading(false);
-                   return;
+                if (typeof __initial_auth_token !== 'undefined') {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
                 }
-
-                // Parsing string JSON kembali ke Array/Object
-                if (data.perlombaan) {
-                    data.perlombaan = data.perlombaan.map(item => ({
-                        ...item,
-                        peserta: item.peserta ? JSON.parse(item.peserta) : [],
-                        bagan: item.bagan ? JSON.parse(item.bagan) : []
-                    }));
-                }
-                
-                // Parsing boolean di periode
-                if(data.periode) {
-                    data.periode = data.periode.map(p => ({
-                        ...p,
-                        aktif: p.aktif === "true" || p.aktif === true
-                    }));
-                }
-
-                window.state = {
-                    panitia: data.panitia || [],
-                    tugas: data.tugas || [],
-                    rundown: data.rundown || [],
-                    keuangan: data.keuangan || [],
-                    periode: data.periode || [],
-                    perlombaan: data.perlombaan || []
-                };
-
-                // Sorting data
-                ['tugas', 'keuangan', 'panitia', 'periode', 'perlombaan'].forEach(col => {
-                    window.state[col].sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
-                });
-                
-                window.state.rundown.sort((a, b) => {
-                    if (a.hari !== b.hari) return (a.hari || 'Hari 1').localeCompare(b.hari || 'Hari 1');
-                    return (a.mulai || '').localeCompare(b.mulai || '');
-                });
-
-                populatePeriodeDropdowns();
-                renderSemua();
-                showLoading(false);
-                
-            } catch (e) {
-                console.error("Gagal menarik data:", e);
-                showToast("Gagal terhubung ke database", "error");
-                showLoading(false);
+                currentUserId = auth.currentUser ? auth.currentUser.uid : 'anon';
+                initDataListeners(); 
+            } catch(error) {
+                console.error("Auth error:", error);
+                currentUserId = 'offline_user';
+                initDataListeners();
             }
         }
 
-        async function simpanDataSheet(sheetName, payload) {
-            showLoading(true);
-            try {
-                await fetch(APP_SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "insert", sheetName: sheetName, payload: payload })
-                });
-                await initDataListeners(); // Refresh
-            } catch (e) {
-                console.error(e);
-                showToast("Gagal menyimpan data", "error");
-                showLoading(false);
-            }
-        }
-
-        async function hapusDataSheet(sheetName, id) {
-            showLoading(true);
-            try {
-                await fetch(APP_SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "delete", sheetName: sheetName, id: id })
-                });
-                await initDataListeners(); // Refresh
-            } catch (e) {
-                console.error(e);
-                showToast("Gagal menghapus data", "error");
-                showLoading(false);
-            }
-        }
-        
-        async function updateDataSheet(sheetName, id, payload) {
-             showLoading(true);
-             try {
-                await fetch(APP_SCRIPT_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ action: "update", sheetName: sheetName, id: id, payload: payload })
-                });
-                await initDataListeners();
-             } catch(e) {
-                console.error(e);
-                showToast("Gagal mengupdate data", "error");
-                showLoading(false);
-             }
+        function getCollectionRef(colName) {
+            return collection(db, 'artifacts', appId, 'public', 'data', colName);
         }
 
         function getActivePeriodeId() {
             const activeP = window.state.periode.find(p => p.aktif);
             return activeP ? activeP.id : (window.state.periode[0] ? window.state.periode[0].id : '');
+        }
+
+        function initDataListeners() {
+            const collections = ['panitia', 'tugas', 'rundown', 'keuangan', 'periode', 'perlombaan'];
+            
+            collections.forEach(colName => {
+                onSnapshot(getCollectionRef(colName), (snapshot) => {
+                    window.state[colName] = [];
+                    
+                    snapshot.forEach(docSnap => {
+                        let data = docSnap.data();
+                        if (colName === 'perlombaan' && data.bagan && typeof data.bagan === 'string') {
+                            try { data.bagan = JSON.parse(data.bagan); } catch(e) { data.bagan = []; }
+                        }
+                        window.state[colName].push({ id: docSnap.id, ...data });
+                    });
+
+                    if(['tugas', 'keuangan', 'panitia', 'periode', 'perlombaan'].includes(colName)) {
+                        window.state[colName].sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+                    }
+                    if(colName === 'rundown') {
+                        window.state[colName].sort((a, b) => {
+                            if (a.hari !== b.hari) return (a.hari || 'Hari 1').localeCompare(b.hari || 'Hari 1');
+                            return (a.mulai || '').localeCompare(b.mulai || '');
+                        });
+                    }
+
+                    if (colName === 'periode') {
+                        populatePeriodeDropdowns(); 
+                    }
+
+                    renderDashboard();
+                    renderPanitia();
+                    renderTugas();
+                    renderRundown();
+                    renderKeuangan();
+                    renderPeriode();
+                    renderPerlombaan();
+                    if(window.activeLombaId) renderDetailLomba();
+
+                }, (error) => {
+                    console.error(`Error fetching ${colName}:`, error);
+                });
+            });
         }
 
         function populatePeriodeDropdowns() {
@@ -1086,6 +1051,7 @@
 
         window.showToast = function(message, type = 'success') {
             const container = document.getElementById('toast-container');
+            if(!container) return;
             const toast = document.createElement('div');
             
             const bgColor = type === 'success' ? 'bg-slate-900 text-white' : 'bg-rose-600 text-white';
@@ -1135,19 +1101,25 @@
                     }
                 }
             });
-            renderSemua();
+
+            if (viewId === 'dashboard') renderDashboard();
+            if (viewId === 'panitia') renderPanitia();
+            if (viewId === 'tugas') renderTugas();
         };
 
         window.activeLombaId = null;
 
         const mobileMenu = document.getElementById('mobileMenu');
-        document.getElementById('mobileMenuBtn').addEventListener('click', () => mobileMenu.classList.remove('translate-x-full'));
-        document.getElementById('closeMenuBtn').addEventListener('click', () => mobileMenu.classList.add('translate-x-full'));
-        window.toggleMobileMenu = function() { mobileMenu.classList.add('translate-x-full'); };
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.remove('translate-x-full'));
+        if(closeMenuBtn) closeMenuBtn.addEventListener('click', () => mobileMenu.classList.add('translate-x-full'));
+        window.toggleMobileMenu = function() { if(mobileMenu) mobileMenu.classList.add('translate-x-full'); };
 
         window.openModal = function(id) {
             const modal = document.getElementById(id);
             const content = document.getElementById(`${id}-content`);
+            if(!modal || !content) return;
             modal.classList.remove('hidden');
             requestAnimationFrame(() => {
                 modal.classList.remove('opacity-0');
@@ -1159,6 +1131,7 @@
         window.closeModal = function(id) {
             const modal = document.getElementById(id);
             const content = document.getElementById(`${id}-content`);
+            if(!modal || !content) return;
             modal.classList.add('opacity-0');
             content.classList.add('scale-95');
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
@@ -1172,6 +1145,7 @@
         window.toggleDesktopSidebar = function() {
             const container = document.getElementById('desktop-sidebar-container');
             const icon = document.getElementById('desktop-sidebar-icon');
+            if(!container || !icon) return;
             
             if (container.classList.contains('w-72')) {
                 container.classList.remove('w-72');
@@ -1186,11 +1160,13 @@
             }
         };
 
-        document.getElementById('tugas-periode').addEventListener('change', populatePicDropdowns);
+        const tugasPeriodeEl = document.getElementById('tugas-periode');
+        if(tugasPeriodeEl) tugasPeriodeEl.addEventListener('change', populatePicDropdowns);
 
         function populatePicDropdowns() {
             const selectBelanja = document.getElementById('tugas-pic-belanja');
             const selectPelaksanaan = document.getElementById('tugas-pic-pelaksanaan');
+            if(!selectBelanja || !selectPelaksanaan) return;
             
             selectBelanja.innerHTML = '<option value="">Pilih Pengurus (Opsional)...</option>';
             selectPelaksanaan.innerHTML = '<option value="">Pilih Pengurus Pelaksanaan...</option>';
@@ -1205,17 +1181,6 @@
                 selectPelaksanaan.innerHTML += opt;
             });
         }
-        
-        function renderSemua() {
-            renderDashboard();
-            renderPanitia();
-            renderTugas();
-            renderRundown();
-            renderKeuangan();
-            renderPeriode();
-            renderPerlombaan();
-            if(window.activeLombaId) renderDetailLomba();
-        }
 
         function renderDashboard() {
             const activePId = getActivePeriodeId();
@@ -1227,58 +1192,69 @@
 
             const periodPanitia = window.state.panitia.filter(p => p.periodeId === activePId);
 
-            document.getElementById('stat-panitia').innerText = periodPanitia.length;
-            document.getElementById('stat-tugas-total').innerText = totalTugas;
-            document.getElementById('stat-tugas-selesai').innerText = selesaiTugas;
-            document.getElementById('stat-progress').innerText = `${progress}%`;
-            document.getElementById('stat-progress-bar').style.width = `${progress}%`;
+            const statPanitia = document.getElementById('stat-panitia');
+            const statTugasTotal = document.getElementById('stat-tugas-total');
+            const statTugasSelesai = document.getElementById('stat-tugas-selesai');
+            const statProgress = document.getElementById('stat-progress');
+            const statProgressBar = document.getElementById('stat-progress-bar');
+            const badgePeriodeNama = document.getElementById('badge-periode-nama');
+
+            if(statPanitia) statPanitia.innerText = periodPanitia.length;
+            if(statTugasTotal) statTugasTotal.innerText = totalTugas;
+            if(statTugasSelesai) statTugasSelesai.innerText = selesaiTugas;
+            if(statProgress) statProgress.innerText = `${progress}%`;
+            if(statProgressBar) statProgressBar.style.width = `${progress}%`;
 
             const activeP = window.state.periode.find(p => p.aktif);
-            document.getElementById('badge-periode-nama').innerText = activeP ? `${activeP.nama}` : 'Belum diatur';
+            if(badgePeriodeNama) badgePeriodeNama.innerText = activeP ? `${activeP.nama}` : 'Belum diatur';
 
             const recentTasksContainer = document.getElementById('dashboard-recent-tasks');
-            const recentTasks = [...periodTugas].slice(0, 4); 
-            
-            if(recentTasks.length === 0) {
-                 recentTasksContainer.innerHTML = `<p class="text-sm font-medium text-slate-400 py-6 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">Belum ada tugas dicatat untuk periode aktif.</p>`;
-            } else {
-                recentTasksContainer.innerHTML = recentTasks.map(t => {
-                    let statusObj = t.status === 'done' ? { text: 'Selesai', color: 'emerald' } : (t.status === 'doing' ? { text: 'Proses', color: 'amber' } : { text: 'Belum', color: 'slate' });
-                    return `
-                    <div class="flex justify-between items-center p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
-                        <div class="flex items-center gap-3">
-                            <div class="w-2 h-10 rounded-full bg-${statusObj.color}-400 group-hover:bg-${statusObj.color}-500 transition-colors"></div>
-                            <div>
-                                <p class="font-extrabold text-slate-900 text-sm">${t.judul}</p>
-                                <p class="text-[11px] font-medium text-slate-500 mt-0.5"><i class="fas fa-user-tag text-slate-400 mr-1"></i> Pelaksana: ${t.picPelaksanaan || '-'}</p>
+            if(recentTasksContainer) {
+                const recentTasks = [...periodTugas].slice(0, 4); 
+                if(recentTasks.length === 0) {
+                     recentTasksContainer.innerHTML = `<p class="text-sm font-medium text-slate-400 py-6 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">Belum ada tugas dicatat untuk periode aktif.</p>`;
+                } else {
+                    recentTasksContainer.innerHTML = recentTasks.map(t => {
+                        let statusObj = t.status === 'done' ? { text: 'Selesai', color: 'emerald' } : (t.status === 'doing' ? { text: 'Proses', color: 'amber' } : { text: 'Belum', color: 'slate' });
+                        return `
+                        <div class="flex justify-between items-center p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+                            <div class="flex items-center gap-3">
+                                <div class="w-2 h-10 rounded-full bg-${statusObj.color}-400 group-hover:bg-${statusObj.color}-500 transition-colors"></div>
+                                <div>
+                                    <p class="font-extrabold text-slate-900 text-sm">${t.judul}</p>
+                                    <p class="text-[11px] font-medium text-slate-500 mt-0.5"><i class="fas fa-user-tag text-slate-400 mr-1"></i> Pelaksana: ${t.picPelaksanaan || '-'}</p>
+                                </div>
                             </div>
-                        </div>
-                        <span class="text-[10px] font-bold px-3 py-1 rounded-lg bg-${statusObj.color}-50 text-${statusObj.color}-700 border border-${statusObj.color}-100 uppercase tracking-widest">${statusObj.text}</span>
-                    </div>`;
-                }).join('');
+                            <span class="text-[10px] font-bold px-3 py-1 rounded-lg bg-${statusObj.color}-50 text-${statusObj.color}-700 border border-${statusObj.color}-100 uppercase tracking-widest">${statusObj.text}</span>
+                        </div>`;
+                    }).join('');
+                }
             }
             
             const upcomingContainer = document.getElementById('dashboard-upcoming-rundown');
-            const periodRundown = window.state.rundown.filter(r => r.periodeId === activePId);
-            const upcoming = [...periodRundown].slice(0, 3);
-            if (upcoming.length === 0) {
-                upcomingContainer.innerHTML = '<p class="text-sm font-medium text-slate-400 py-6 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">Belum ada jadwal acara terdekat untuk periode aktif.</p>';
-            } else {
-                upcomingContainer.innerHTML = upcoming.map(r => `
-                    <div class="p-4 bg-slate-50 hover:bg-white rounded-2xl border border-slate-100 hover:border-accent-200 shadow-sm hover:shadow-md transition-all group">
-                        <div class="flex justify-between items-start mb-1">
-                            <p class="font-extrabold text-slate-900 text-sm group-hover:text-brand-700 transition-colors">${r.kegiatan}</p>
-                            <span class="bg-white border border-slate-200 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-md shadow-sm whitespace-nowrap"><i class="far fa-clock text-accent-500 mr-1"></i>${r.hari || 'Hari 1'} • ${r.mulai}</span>
+            if(upcomingContainer) {
+                const periodRundown = window.state.rundown.filter(r => r.periodeId === activePId);
+                const upcoming = [...periodRundown].slice(0, 3);
+                if (upcoming.length === 0) {
+                    upcomingContainer.innerHTML = '<p class="text-sm font-medium text-slate-400 py-6 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">Belum ada jadwal acara terdekat untuk periode aktif.</p>';
+                } else {
+                    upcomingContainer.innerHTML = upcoming.map(r => `
+                        <div class="p-4 bg-slate-50 hover:bg-white rounded-2xl border border-slate-100 hover:border-accent-200 shadow-sm hover:shadow-md transition-all group">
+                            <div class="flex justify-between items-start mb-1">
+                                <p class="font-extrabold text-slate-900 text-sm group-hover:text-brand-700 transition-colors">${r.kegiatan}</p>
+                                <span class="bg-white border border-slate-200 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-md shadow-sm whitespace-nowrap"><i class="far fa-clock text-accent-500 mr-1"></i>${r.hari || 'Hari 1'} • ${r.mulai}</span>
+                            </div>
+                            <p class="text-[11px] font-medium text-slate-500 mt-1"><i class="fas fa-user-tie text-slate-400 mr-1"></i> PIC: <span class="text-slate-700 font-semibold">${r.pic}</span></p>
                         </div>
-                        <p class="text-[11px] font-medium text-slate-500 mt-1"><i class="fas fa-user-tie text-slate-400 mr-1"></i> PIC: <span class="text-slate-700 font-semibold">${r.pic}</span></p>
-                    </div>
-                `).join('');
+                    `).join('');
+                }
             }
         }
 
         function renderPeriode() {
             const tbody = document.getElementById('periode-table-body');
             const emptyState = document.getElementById('periode-empty');
+            if(!tbody || !emptyState) return;
             
             if (window.state.periode.length === 0) {
                 tbody.innerHTML = '';
@@ -1293,8 +1269,8 @@
                             ${p.aktif ? '<span class="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-lg text-[10px] font-extrabold border border-emerald-200 uppercase tracking-widest shadow-sm">Aktif Saat Ini</span>' : '<span class="px-3 py-1 bg-slate-100 text-slate-500 rounded-lg text-[10px] font-bold uppercase tracking-widest">Nonaktif</span>'}
                         </td>
                         <td class="py-4 px-6 text-right space-x-3">
-                            ${!p.aktif ? `<button onclick="setPeriodeAktif('${p.id}')" class="text-xs text-brand-600 font-bold hover:text-brand-800 transition-colors">Aktifkan</button>` : ''}
-                            <button onclick="deletePeriode('${p.id}')" class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-colors opacity-0 group-hover:opacity-100"><i class="fas fa-trash-alt text-xs"></i></button>
+                            ${!p.aktif ? `<button onclick="setPeriodeAktif('${p.id}')" class="text-xs text-brand-600 font-bold hover:text-brand-800 transition-colors cursor-pointer">Aktifkan</button>` : ''}
+                            <button onclick="deletePeriode('${p.id}')" class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"><i class="fas fa-trash-alt text-xs"></i></button>
                         </td>
                     </tr>
                 `).join('');
@@ -1304,6 +1280,7 @@
         window.renderPanitia = function() {
             const tbody = document.getElementById('panitia-table-body');
             const emptyState = document.getElementById('panitia-empty');
+            if(!tbody || !emptyState) return;
             
             const filterEl = document.getElementById('filter-panitia-periode');
             const selectedPId = filterEl ? filterEl.value : getActivePeriodeId();
@@ -1331,7 +1308,7 @@
                         <td class="py-4 px-6"><span class="px-3 py-1 rounded-lg text-[10px] font-extrabold uppercase tracking-widest border ${divColor}">${p.divisi}</span></td>
                         <td class="py-4 px-6 font-semibold text-slate-600 text-xs">${p.peran}</td>
                         <td class="py-4 px-6 text-right">
-                            <button onclick="deletePanitia('${p.id}')" class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-colors opacity-0 group-hover:opacity-100"><i class="fas fa-trash-alt text-xs"></i></button>
+                            <button onclick="deletePanitia('${p.id}')" class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"><i class="fas fa-trash-alt text-xs"></i></button>
                         </td>
                     </tr>`;
                 }).join('');
@@ -1340,6 +1317,7 @@
 
         window.renderTugas = function() {
             const cols = { todo: document.getElementById('col-todo'), doing: document.getElementById('col-doing'), done: document.getElementById('col-done') };
+            if(!cols.todo || !cols.doing || !cols.done) return;
             Object.values(cols).forEach(col => col.innerHTML = '');
             let counts = { todo: 0, doing: 0, done: 0 };
 
@@ -1395,24 +1373,28 @@
                     ${ketHtml}
                     
                     <div class="flex justify-between items-center pt-3 mt-3 border-t border-slate-100">
-                        <button onclick="deleteTugas('${t.id}')" class="text-slate-300 hover:text-rose-600 text-xs transition-colors p-1"><i class="fas fa-trash-alt"></i></button>
+                        <button onclick="deleteTugas('${t.id}')" class="text-slate-300 hover:text-rose-600 text-xs transition-colors p-1 cursor-pointer"><i class="fas fa-trash-alt"></i></button>
                         <div class="flex gap-1.5">
-                            ${t.status !== 'todo' ? `<button onclick="updateTaskStatus('${t.id}', '${t.status === 'done' ? 'doing' : 'todo'}')" class="w-7 h-7 flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-xs font-bold transition-colors shadow-sm"><i class="fas fa-chevron-left text-[10px]"></i></button>` : ""}
-                            ${t.status !== 'done' ? `<button onclick="updateTaskStatus('${t.id}', '${t.status === 'todo' ? 'doing' : 'done'}')" class="w-7 h-7 flex items-center justify-center bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-lg text-xs font-bold transition-colors shadow-sm"><i class="fas fa-chevron-right text-[10px]"></i></button>` : ""}
+                            ${t.status !== 'todo' ? `<button onclick="updateTaskStatus('${t.id}', '${t.status === 'done' ? 'doing' : 'todo'}')" class="w-7 h-7 flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-xs font-bold transition-colors shadow-sm cursor-pointer"><i class="fas fa-chevron-left text-[10px]"></i></button>` : ""}
+                            ${t.status !== 'done' ? `<button onclick="updateTaskStatus('${t.id}', '${t.status === 'todo' ? 'doing' : 'done'}')" class="w-7 h-7 flex items-center justify-center bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-lg text-xs font-bold transition-colors shadow-sm cursor-pointer"><i class="fas fa-chevron-right text-[10px]"></i></button>` : ""}
                         </div>
                     </div>
                 `;
                 if(cols[t.status]) cols[t.status].appendChild(card);
             });
 
-            document.getElementById('count-todo').innerText = counts.todo;
-            document.getElementById('count-doing').innerText = counts.doing;
-            document.getElementById('count-done').innerText = counts.done;
+            const ct = document.getElementById('count-todo');
+            const cd = document.getElementById('count-doing');
+            const cdn = document.getElementById('count-done');
+            if(ct) ct.innerText = counts.todo;
+            if(cd) cd.innerText = counts.doing;
+            if(cdn) cdn.innerText = counts.done;
         }
 
         window.renderRundown = function() {
             const timeline = document.getElementById('rundown-timeline');
             const emptyState = document.getElementById('rundown-empty');
+            if(!timeline || !emptyState) return;
             
             const filterEl = document.getElementById('filter-rundown-periode');
             const selectedPId = filterEl ? filterEl.value : getActivePeriodeId();
@@ -1444,7 +1426,7 @@
                             </div>
                             <div class="flex justify-between items-end mt-3">
                                 <p class="text-xs font-medium text-slate-500"><span class="font-bold uppercase tracking-wider text-[10px] text-slate-400 block mb-0.5">Penanggung Jawab</span><i class="fas fa-user-tie text-brand-600 mr-1.5"></i> <span class="text-slate-800 font-bold">${r.pic}</span></p>
-                                <button onclick="deleteRundown('${r.id}')" class="text-slate-300 hover:text-rose-600 transition-colors p-2 rounded-full hover:bg-rose-50 opacity-0 group-hover:opacity-100"><i class="fas fa-trash-alt"></i></button>
+                                <button onclick="deleteRundown('${r.id}')" class="text-slate-300 hover:text-rose-600 transition-colors p-2 rounded-full hover:bg-rose-50 opacity-0 group-hover:opacity-100 cursor-pointer"><i class="fas fa-trash-alt"></i></button>
                             </div>
                         </div>
                     </div>
@@ -1471,12 +1453,16 @@
             });
             const saldo = totalIn - totalOut;
 
-            document.getElementById('stat-pemasukan').innerText = formatRp(totalIn);
-            document.getElementById('stat-pengeluaran').innerText = formatRp(totalOut);
-            document.getElementById('stat-saldo').innerText = formatRp(saldo);
+            const stIn = document.getElementById('stat-pemasukan');
+            const stOut = document.getElementById('stat-pengeluaran');
+            const stSal = document.getElementById('stat-saldo');
+            if(stIn) stIn.innerText = formatRp(totalIn);
+            if(stOut) stOut.innerText = formatRp(totalOut);
+            if(stSal) stSal.innerText = formatRp(saldo);
 
             const tbody = document.getElementById('keuangan-table-body');
             const emptyState = document.getElementById('keuangan-empty');
+            if(!tbody || !emptyState) return;
             
             if (filtered.length === 0) {
                 tbody.innerHTML = '';
@@ -1498,13 +1484,14 @@
                         <td class="py-4 px-6 font-bold text-slate-800">${t.keterangan}</td>
                         <td class="py-4 px-6 text-right font-black ${isMasuk ? 'text-emerald-600' : 'text-slate-900'}">${isMasuk ? '+' : '-'}${formatRp(t.jumlah)}</td>
                         <td class="py-4 px-6 text-center">
-                            <button onclick="deleteKeuangan('${t.id}')" class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-colors opacity-0 group-hover:opacity-100"><i class="fas fa-trash-alt text-xs"></i></button>
+                            <button onclick="deleteKeuangan('${t.id}')" class="w-8 h-8 rounded-full bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"><i class="fas fa-trash-alt text-xs"></i></button>
                         </td>
                     </tr>`;
                 }).join('');
             }
 
             const percentContainer = document.getElementById('keuangan-persentase-list');
+            if(!percentContainer) return;
             const expenses = filtered.filter(t => t.tipe === 'out');
             
             if (totalIn === 0 || expenses.length === 0) {
@@ -1534,6 +1521,7 @@
         window.renderPerlombaan = function() {
             const grid = document.getElementById('perlombaan-grid');
             const emptyState = document.getElementById('perlombaan-empty');
+            if(!grid || !emptyState) return;
             
             const filterEl = document.getElementById('filter-perlombaan-periode');
             const selectedPId = filterEl ? filterEl.value : getActivePeriodeId();
@@ -1572,7 +1560,7 @@
                                 </div>
                                 <h3 class="font-extrabold text-slate-900 text-lg">${l.namaLomba}</h3>
                             </div>
-                            <button onclick="deleteLomba('${l.id}')" class="text-slate-300 hover:text-rose-600 transition-colors p-2 opacity-0 group-hover:opacity-100"><i class="fas fa-trash-alt"></i></button>
+                            <button onclick="deleteLomba('${l.id}')" class="text-slate-300 hover:text-rose-600 transition-colors p-2 opacity-0 group-hover:opacity-100 cursor-pointer"><i class="fas fa-trash-alt"></i></button>
                         </div>
                         
                         <div class="flex items-center gap-4 text-xs font-bold text-slate-500 mb-5">
@@ -1580,7 +1568,7 @@
                             <span class="flex items-center gap-1.5"><i class="fas fa-project-diagram text-slate-400"></i> ${babakAktif}</span>
                         </div>
                         
-                        <button onclick="openDetailLomba('${l.id}')" class="w-full py-3 bg-slate-50 hover:bg-brand-50 border border-slate-200 hover:border-brand-200 text-slate-700 hover:text-brand-700 rounded-xl font-extrabold text-xs transition-all shadow-sm group-hover:shadow-md flex items-center justify-center gap-2">
+                        <button onclick="openDetailLomba('${l.id}')" class="w-full py-3 bg-slate-50 hover:bg-brand-50 border border-slate-200 hover:border-brand-200 text-slate-700 hover:text-brand-700 rounded-xl font-extrabold text-xs transition-all shadow-sm group-hover:shadow-md flex items-center justify-center gap-2 cursor-pointer">
                             <i class="fas fa-cog"></i> Kelola & Bagan
                         </button>
                     </div>`;
@@ -1622,7 +1610,7 @@
                         listPeserta.innerHTML = peserta.map((p, idx) => `
                             <li class="p-3 flex justify-between items-center hover:bg-slate-100 transition-colors group">
                                 <span class="font-bold text-slate-800 text-xs"><span class="text-slate-400 mr-2">${idx+1}.</span>${p}</span>
-                                <button onclick="hapusPesertaLomba('${p}')" class="text-slate-300 hover:text-rose-600 opacity-0 group-hover:opacity-100 transition-colors"><i class="fas fa-times"></i></button>
+                                <button onclick="hapusPesertaLomba('${p}')" class="text-slate-300 hover:text-rose-600 opacity-0 group-hover:opacity-100 transition-colors cursor-pointer"><i class="fas fa-times"></i></button>
                             </li>
                         `).join('');
                     }
@@ -1656,17 +1644,17 @@
                                     
                                     return `
                                     <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white hover:border-brand-300 transition-colors">
-                                        <div class="text-[9px] bg-slate-50 text-center py-1.5 font-bold text-slate-400 border-b border-slate-200 uppercase tracking-widest">Match ${mIndex + 1}${isLocked ? '<i class="fas fa-lock ml-1 text-slate-300"></i>' : ''}</div>
+                                        <div class="text-[9px] bg-slate-50 text-center py-1.5 font-bold text-slate-400 border-b border-slate-200 uppercase tracking-widest">Match ${mIndex + 1} ${isLocked ? '<i class="fas fa-lock ml-1 text-slate-300"></i>' : ''}</div>
                                         <div class="flex flex-col">
-                                            <button onclick="setWinnerLomba(${rIndex},${mIndex}, '${match.p1}')" ${isLocked ? 'disabled' : ''} class="px-3 py-2.5 text-xs text-left font-bold transition-colors ${p1Win ? 'bg-emerald-50 text-emerald-700' : (isLocked ? 'text-slate-400 bg-slate-50 opacity-50' : 'text-slate-700 hover:bg-slate-50')}">
+                                            <button onclick="setWinnerLomba(${rIndex}, ${mIndex}, '${match.p1}')" ${isLocked ? 'disabled' : ''} class="px-3 py-2.5 text-xs text-left font-bold transition-colors ${p1Win ? 'bg-emerald-50 text-emerald-700' : (isLocked ? 'text-slate-400 bg-slate-50 opacity-50' : 'text-slate-700 hover:bg-slate-50 cursor-pointer')}">
                                                 ${p1Win ? '<i class="fas fa-check-circle mr-1"></i>' : ''}${match.p1}
                                             </button>
                                             <div class="h-px bg-slate-100 mx-3"></div>
-                                            <button onclick="setWinnerLomba(${rIndex},${mIndex}, '${match.p2 \vert{}\vert{} ''}')" ${!match.p2 || isLocked ? 'disabled' : ''} class="px-3 py-2.5 text-xs text-left font-bold transition-colors ${p2Win ? 'bg-emerald-50 text-emerald-700' : (match.p2 && !isLocked ? 'text-slate-700 hover:bg-slate-50' : 'text-slate-400 italic bg-slate-50 opacity-50')}">
+                                            <button onclick="setWinnerLomba(${rIndex}, ${mIndex}, '${match.p2 || ''}')" ${!match.p2 || isLocked ? 'disabled' : ''} class="px-3 py-2.5 text-xs text-left font-bold transition-colors ${p2Win ? 'bg-emerald-50 text-emerald-700' : (match.p2 && !isLocked ? 'text-slate-700 hover:bg-slate-50 cursor-pointer' : 'text-slate-400 italic bg-slate-50 opacity-50')}">
                                                 ${p2Win ? '<i class="fas fa-check-circle mr-1"></i>' : ''}${match.p2 || '(Kosong)'}
                                             </button>
                                             <div class="h-px bg-slate-100 mx-3"></div>
-                                            <button onclick="setWinnerLomba(${rIndex},${mIndex}, '${match.p3 \vert{}\vert{} ''}')" ${!match.p3 || isLocked ? 'disabled' : ''} class="px-3 py-2.5 text-xs text-left font-bold transition-colors ${p3Win ? 'bg-emerald-50 text-emerald-700' : (match.p3 && !isLocked ? 'text-slate-700 hover:bg-slate-50' : 'text-slate-400 italic bg-slate-50 opacity-50')}">
+                                            <button onclick="setWinnerLomba(${rIndex}, ${mIndex}, '${match.p3 || ''}')" ${!match.p3 || isLocked ? 'disabled' : ''} class="px-3 py-2.5 text-xs text-left font-bold transition-colors ${p3Win ? 'bg-emerald-50 text-emerald-700' : (match.p3 && !isLocked ? 'text-slate-700 hover:bg-slate-50 cursor-pointer' : 'text-slate-400 italic bg-slate-50 opacity-50')}">
                                                 ${p3Win ? '<i class="fas fa-check-circle mr-1"></i>' : ''}${match.p3 || '(Kosong)'}
                                             </button>
                                         </div>
@@ -1681,69 +1669,77 @@
             }
         }
 
-        // --- Event Listeners Form ---
-        
-        document.getElementById('form-lomba').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const namaLomba = document.getElementById('lomba-nama').value;
-            const kategoriUsia = document.getElementById('lomba-kategori').value;
-            const jenisLomba = document.getElementById('lomba-jenis').value;
-            const periodeId = document.getElementById('lomba-periode').value || getActivePeriodeId();
+        const formLombaEl = document.getElementById('form-lomba');
+        if(formLombaEl) {
+            formLombaEl.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const namaLomba = document.getElementById('lomba-nama').value;
+                const kategoriUsia = document.getElementById('lomba-kategori').value;
+                const jenisLomba = document.getElementById('lomba-jenis').value;
+                const periodeId = document.getElementById('lomba-periode').value || getActivePeriodeId();
 
-            await simpanDataSheet('Perlombaan', { 
-                namaLomba, kategoriUsia, jenisLomba, periodeId,
-                peserta: [], bagan: [], createdAt: Date.now() 
+                try {
+                    await setDoc(doc(getCollectionRef('perlombaan')), { 
+                        namaLomba, kategoriUsia, jenisLomba, periodeId,
+                        peserta: [], bagan: JSON.stringify([]), createdAt: Date.now() 
+                    });
+                    closeModal('modal-lomba');
+                    e.target.reset();
+                    showToast('Lomba berhasil ditambahkan');
+                } catch(err) {
+                    showToast('Gagal menyimpan lomba', 'error');
+                }
             });
-            closeModal('modal-lomba');
-            e.target.reset();
-            showToast('Lomba berhasil ditambahkan');
-        });
+        }
 
         window.deleteLomba = async function(id) {
-            await hapusDataSheet('Perlombaan', id);
+            await deleteDoc(doc(getCollectionRef('perlombaan'), id));
             showToast('Lomba dihapus');
         };
 
-        document.getElementById('form-peserta-lomba').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!window.activeLombaId) return;
-            const input = document.getElementById('input-peserta-lomba');
-            const btn = document.getElementById('btn-tambah-peserta');
-            const nama = input.value.trim();
-            if(!nama) return;
+        const formPesertaEl = document.getElementById('form-peserta-lomba');
+        if(formPesertaEl) {
+            formPesertaEl.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!window.activeLombaId) return;
+                const input = document.getElementById('input-peserta-lomba');
+                const btn = document.getElementById('btn-tambah-peserta');
+                const nama = input.value.trim();
+                if(!nama) return;
 
-            const lomba = window.state.perlombaan.find(l => l.id === window.activeLombaId);
-            if(!lomba) return;
+                const lomba = window.state.perlombaan.find(l => l.id === window.activeLombaId);
+                if(!lomba) return;
 
-            const pesertaBaru = [...(lomba.peserta || []), nama];
-            
-            try {
-                input.disabled = true;
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; 
+                const pesertaBaru = [...(lomba.peserta || []), nama];
                 
-                await updateDataSheet('Perlombaan', window.activeLombaId, { peserta: pesertaBaru });
-                
-                input.value = '';
-                input.disabled = false;
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-plus mr-1"></i> Tambah';
-                input.focus(); 
-                showToast(`Peserta / Tim ditambahkan!`);
-            } catch (err) {
-                input.disabled = false;
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-plus mr-1"></i> Tambah';
-                showToast('Gagal menambahkan peserta.', 'error');
-            }
-        });
+                try {
+                    input.disabled = true;
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; 
+                    
+                    await setDoc(doc(getCollectionRef('perlombaan'), window.activeLombaId), { peserta: pesertaBaru }, { merge: true });
+                    
+                    input.value = '';
+                    input.disabled = false;
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-plus mr-1"></i> Tambah';
+                    input.focus(); 
+                    showToast(`Peserta / Tim ditambahkan!`);
+                } catch (err) {
+                    input.disabled = false;
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-plus mr-1"></i> Tambah';
+                    showToast('Gagal menambahkan peserta.', 'error');
+                }
+            });
+        }
 
         window.hapusPesertaLomba = async function(nama) {
             if (!window.activeLombaId) return;
             const lomba = window.state.perlombaan.find(l => l.id === window.activeLombaId);
             if(!lomba) return;
             const pesertaBaru = (lomba.peserta || []).filter(p => p !== nama);
-            await updateDataSheet('Perlombaan', window.activeLombaId, { peserta: pesertaBaru });
+            await setDoc(doc(getCollectionRef('perlombaan'), window.activeLombaId), { peserta: pesertaBaru }, { merge: true });
         };
 
         function acakArray(array) {
@@ -1756,242 +1752,288 @@
         }
 
         window.generateNextRound = async function() {
-            if (!window.activeLombaId) return;
-            const lomba = window.state.perlombaan.find(l => l.id === window.activeLombaId);
-            if(!lomba) return;
+            try {
+                if (!window.activeLombaId) return;
+                const lomba = window.state.perlombaan.find(l => l.id === window.activeLombaId);
+                if(!lomba) return;
 
-            let pesertaPool = [];
-            let baganSaatIni = lomba.bagan || [];
-
-            if (baganSaatIni.length === 0) {
-                pesertaPool = lomba.peserta || [];
-                if(pesertaPool.length < 2) {
-                    showToast('Peserta minimal 2 orang untuk membuat bagan', 'error');
-                    return;
+                let pesertaPool = [];
+                let baganSaatIni = lomba.bagan || [];
+                if (typeof baganSaatIni === 'string') {
+                    try { baganSaatIni = JSON.parse(baganSaatIni); } catch(e) { baganSaatIni = []; }
                 }
-            } else {
-                const babakTerakhir = baganSaatIni[baganSaatIni.length - 1];
-                let semuaSelesai = true;
-                babakTerakhir.forEach(m => { if(!m.pemenang) semuaSelesai = false; });
+                if (!Array.isArray(baganSaatIni)) baganSaatIni = [];
+
+                if (baganSaatIni.length === 0) {
+                    pesertaPool = lomba.peserta || [];
+                    if(pesertaPool.length < 2) {
+                        showToast('Peserta minimal 2 orang untuk membuat bagan', 'error');
+                        return;
+                    }
+                } else {
+                    const babakTerakhir = baganSaatIni[baganSaatIni.length - 1];
+                    let semuaSelesai = true;
+                    babakTerakhir.forEach(m => { if(!m.pemenang) semuaSelesai = false; });
+                    
+                    if(!semuaSelesai) {
+                        showToast('Pilih semua pemenang di babak saat ini terlebih dahulu!', 'error');
+                        return;
+                    }
+
+                    pesertaPool = babakTerakhir.map(m => m.pemenang).filter(Boolean);
+                    if(pesertaPool.length === 1) {
+                        showToast(`🎉 Lomba Selesai! Pemenang: ${pesertaPool[0]}`, 'success');
+                        return;
+                    }
+                }
+
+                const diacak = acakArray(pesertaPool);
+                const rondeBaru = [];
                 
-                if(!semuaSelesai) {
-                    showToast('Pilih semua pemenang di babak saat ini terlebih dahulu!', 'error');
-                    return;
+                for(let i = 0; i < diacak.length; i += 3) {
+                    const p1 = diacak[i] || "";
+                    const p2 = diacak[i+1] || null;
+                    const p3 = diacak[i+2] || null;
+                    
+                    let pemenangOtomatis = null;
+                    if (!p2 && !p3 && p1) {
+                        pemenangOtomatis = p1;
+                    }
+
+                    rondeBaru.push({ p1: p1, p2: p2, p3: p3, pemenang: pemenangOtomatis });
                 }
 
-                pesertaPool = babakTerakhir.map(m => m.pemenang).filter(Boolean);
-                if(pesertaPool.length === 1) {
-                    showToast(`🎉 Lomba Selesai! Pemenang: ${pesertaPool[0]}`, 'success');
-                    return;
-                }
-            }
+                const serializedBagan = baganSaatIni.map(ronde => ronde.map(m => ({
+                    p1: m.p1 || "",
+                    p2: m.p2 || null,
+                    p3: m.p3 || null,
+                    pemenang: m.pemenang || null
+                })));
+                serializedBagan.push(rondeBaru);
 
-            const diacak = acakArray(pesertaPool);
-            const rondeBaru = [];
-            
-            for(let i = 0; i < diacak.length; i += 3) {
-                const p1 = diacak[i] || "";
-                const p2 = diacak[i+1] || null;
-                const p3 = diacak[i+2] || null;
+                const finalStringBagan = JSON.stringify(serializedBagan);
+                await setDoc(doc(getCollectionRef('perlombaan'), window.activeLombaId), { bagan: finalStringBagan }, { merge: true });
+                showToast('Babak baru berhasil dibuat!');
                 
-                let pemenangOtomatis = null;
-                if (!p2 && !p3 && p1) {
-                    pemenangOtomatis = p1;
-                }
-                rondeBaru.push({ p1: p1, p2: p2, p3: p3, pemenang: pemenangOtomatis });
+            } catch (error) {
+                console.error("Error generating round:", error);
+                showToast('Gagal memproses bagan.', 'error');
             }
-
-            const baganBaru = [...baganSaatIni, rondeBaru];
-            await updateDataSheet('Perlombaan', window.activeLombaId, { bagan: baganBaru });
-            showToast('Babak baru berhasil dibuat!');
         };
 
         window.setWinnerLomba = async function(rIndex, mIndex, winnerName) {
-            if (!window.activeLombaId || !winnerName) return;
-            const lomba = window.state.perlombaan.find(l => l.id === window.activeLombaId);
-            if(!lomba) return;
-            
-            let baganSaatIni = lomba.bagan || [];
-            const currentMatch = baganSaatIni[rIndex][mIndex];
-            if (currentMatch && currentMatch.pemenang !== null) {
-                showToast('Pemenang untuk match ini sudah dikunci.', 'error');
-                return;
-            }
-            
-            const baganBaru = baganSaatIni.map((ronde, ri) => ronde.map((match, mi) => {
-                let pemenangVal = match.pemenang;
-                if (ri === rIndex && mi === mIndex) {
-                    pemenangVal = winnerName;
+            try {
+                if (!window.activeLombaId || !winnerName) return;
+                const lomba = window.state.perlombaan.find(l => l.id === window.activeLombaId);
+                if(!lomba) return;
+                
+                let baganSaatIni = lomba.bagan || [];
+                if (typeof baganSaatIni === 'string') {
+                    try { baganSaatIni = JSON.parse(baganSaatIni); } catch(e) { baganSaatIni = []; }
                 }
-                return {
-                    p1: match.p1 || "",
-                    p2: match.p2 || null,
-                    p3: match.p3 || null,
-                    pemenang: pemenangVal || null
-                };
-            }));
+                if (!Array.isArray(baganSaatIni)) baganSaatIni = [];
 
-            await updateDataSheet('Perlombaan', window.activeLombaId, { bagan: baganBaru });
-            showToast(`Pemenang dikunci: ${winnerName}`);
+                const currentMatch = baganSaatIni[rIndex][mIndex];
+                if (currentMatch && currentMatch.pemenang !== null) {
+                    showToast('Pemenang untuk match ini sudah dikunci.', 'error');
+                    return;
+                }
+                
+                const baganBaru = baganSaatIni.map((ronde, ri) => ronde.map((match, mi) => {
+                    let pemenangVal = match.pemenang;
+                    if (ri === rIndex && mi === mIndex) {
+                        pemenangVal = winnerName;
+                    }
+                    return {
+                        p1: match.p1 || "",
+                        p2: match.p2 || null,
+                        p3: match.p3 || null,
+                        pemenang: pemenangVal || null
+                    };
+                }));
+
+                const finalStringBagan = JSON.stringify(baganBaru);
+                await setDoc(doc(getCollectionRef('perlombaan'), window.activeLombaId), { bagan: finalStringBagan }, { merge: true });
+                showToast(`Pemenang dikunci: ${winnerName}`);
+            } catch (error) {
+                console.error("Error setting winner:", error);
+                showToast('Gagal menetapkan pemenang.', 'error');
+            }
         };
 
-        document.getElementById('form-periode').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const nama = document.getElementById('periode-nama').value;
-            const rentang = document.getElementById('periode-rentang').value;
-            const aktif = document.getElementById('periode-aktif').checked;
-            
-            if (aktif && window.state.periode.length > 0) {
-                for (let p of window.state.periode) {
-                    // Update sheet secara seri untuk menghindari race condition
-                    await fetch(APP_SCRIPT_URL, {
-                       method: "POST", body: JSON.stringify({ action: "update", sheetName: "Periode", id: p.id, payload: { aktif: false } })
+        const formPeriodeEl = document.getElementById('form-periode');
+        if(formPeriodeEl) {
+            formPeriodeEl.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const nama = document.getElementById('periode-nama').value.trim();
+                const rentang = document.getElementById('periode-rentang').value.trim();
+                const aktif = document.getElementById('periode-aktif').checked;
+                try {
+                    if (aktif && window.state.periode.length > 0) {
+                        for (let p of window.state.periode) {
+                            await setDoc(doc(getCollectionRef('periode'), p.id), { aktif: false }, { merge: true });
+                        }
+                    }
+                    await setDoc(doc(getCollectionRef('periode')), { 
+                        nama, 
+                        rentang, 
+                        aktif: aktif || window.state.periode.length === 0, 
+                        createdAt: Date.now() 
                     });
+                    closeModal('modal-periode');
+                    e.target.reset();
+                    showToast('Periode berhasil ditambahkan');
+                } catch(err) {
+                    console.error("Error saving periode:", err);
+                    showToast('Gagal menyimpan periode', 'error');
                 }
-            }
-            
-            await simpanDataSheet('Periode', { nama, rentang, aktif: aktif || window.state.periode.length === 0, createdAt: Date.now() });
-            closeModal('modal-periode');
-            e.target.reset();
-            showToast('Periode berhasil ditambahkan');
-        });
+            });
+        }
 
         window.setPeriodeAktif = async function(id) {
-            showLoading(true);
             try {
                 for (let p of window.state.periode) {
-                    await fetch(APP_SCRIPT_URL, {
-                       method: "POST", body: JSON.stringify({ action: "update", sheetName: "Periode", id: p.id, payload: { aktif: p.id === id } })
-                    });
+                    await setDoc(doc(getCollectionRef('periode'), p.id), { aktif: p.id === id }, { merge: true });
                 }
-                await initDataListeners();
                 showToast('Periode aktif diperbarui');
             } catch(e) {
                 showToast('Gagal mengubah status', 'error');
-                showLoading(false);
             }
         };
 
         window.deletePeriode = async function(id) {
-            await hapusDataSheet('Periode', id);
+            await deleteDoc(doc(getCollectionRef('periode'), id));
             showToast('Periode dihapus');
         };
 
-        document.getElementById('form-panitia').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const nama = document.getElementById('panitia-nama').value;
-            const divisi = document.getElementById('panitia-divisi').value;
-            const peran = document.getElementById('panitia-peran').value;
-            const periodeId = document.getElementById('panitia-periode').value || getActivePeriodeId();
-            
-            await simpanDataSheet('Panitia', { nama, divisi, peran, periodeId, createdAt: Date.now() });
-            closeModal('modal-panitia');
-            e.target.reset();
-            showToast('Pengurus berhasil ditambahkan');
-        });
+        const formPanitiaEl = document.getElementById('form-panitia');
+        if(formPanitiaEl) {
+            formPanitiaEl.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const nama = document.getElementById('panitia-nama').value;
+                const divisi = document.getElementById('panitia-divisi').value;
+                const peran = document.getElementById('panitia-peran').value;
+                const periodeId = document.getElementById('panitia-periode').value || getActivePeriodeId();
+                
+                await setDoc(doc(getCollectionRef('panitia')), { nama, divisi, peran, periodeId, createdAt: Date.now() });
+                closeModal('modal-panitia');
+                e.target.reset();
+                showToast('Pengurus berhasil ditambahkan');
+            });
+        }
 
         window.deletePanitia = async function(id) {
-            await hapusDataSheet('Panitia', id);
+            await deleteDoc(doc(getCollectionRef('panitia'), id));
             showToast('Pengurus dihapus');
         };
 
-        document.getElementById('form-tugas').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const judul = document.getElementById('tugas-judul').value;
-            const keterangan = document.getElementById('tugas-keterangan').value;
-            const picBelanja = document.getElementById('tugas-pic-belanja').value;
-            const picPelaksanaan = document.getElementById('tugas-pic-pelaksanaan').value;
-            const prioritas = document.getElementById('tugas-prioritas').value;
-            const periodeId = document.getElementById('tugas-periode').value || getActivePeriodeId();
+        const formTugasEl = document.getElementById('form-tugas');
+        if(formTugasEl) {
+            formTugasEl.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const judul = document.getElementById('tugas-judul').value;
+                const keterangan = document.getElementById('tugas-keterangan').value;
+                const picBelanja = document.getElementById('tugas-pic-belanja').value;
+                const picPelaksanaan = document.getElementById('tugas-pic-pelaksanaan').value;
+                const prioritas = document.getElementById('tugas-prioritas').value;
+                const periodeId = document.getElementById('tugas-periode').value || getActivePeriodeId();
 
-            await simpanDataSheet('Tugas', { 
-                judul, keterangan, picBelanja, picPelaksanaan, prioritas, periodeId, status: 'todo', createdAt: Date.now() 
+                await setDoc(doc(getCollectionRef('tugas')), { 
+                    judul, keterangan, picBelanja, picPelaksanaan, prioritas, periodeId, status: 'todo', createdAt: Date.now() 
+                });
+                closeModal('modal-tugas');
+                e.target.reset();
+                showToast('Tugas ditambahkan');
             });
-            closeModal('modal-tugas');
-            e.target.reset();
-            showToast('Tugas ditambahkan');
-        });
+        }
 
         window.updateTaskStatus = async function(id, status) {
-            await updateDataSheet('Tugas', id, { status: status });
+            await setDoc(doc(getCollectionRef('tugas'), id), { status }, { merge: true });
         };
 
         window.deleteTugas = async function(id) {
-            await hapusDataSheet('Tugas', id);
+            await deleteDoc(doc(getCollectionRef('tugas'), id));
             showToast('Tugas dihapus');
         };
 
-        document.getElementById('form-rundown').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const hari = document.getElementById('rundown-hari').value;
-            const mulai = document.getElementById('rundown-mulai').value;
-            const selesai = document.getElementById('rundown-selesai').value;
-            const kegiatan = document.getElementById('rundown-kegiatan').value;
-            const kategoriUsia = document.getElementById('rundown-kategori').value;
-            const pic = document.getElementById('rundown-pic').value || 'Panitia';
-            const periodeId = document.getElementById('rundown-periode').value || getActivePeriodeId();
+        const formRundownEl = document.getElementById('form-rundown');
+        if(formRundownEl) {
+            formRundownEl.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const hari = document.getElementById('rundown-hari').value;
+                const mulai = document.getElementById('rundown-mulai').value;
+                const selesai = document.getElementById('rundown-selesai').value;
+                const kegiatan = document.getElementById('rundown-kegiatan').value;
+                const kategoriUsia = document.getElementById('rundown-kategori').value;
+                const pic = document.getElementById('rundown-pic').value || 'Panitia';
+                const periodeId = document.getElementById('rundown-periode').value || getActivePeriodeId();
 
-            const periodRundown = window.state.rundown.filter(r => r.periodeId === periodeId);
+                const periodRundown = window.state.rundown.filter(r => r.periodeId === periodeId);
 
-            const konflik = periodRundown.some(r => {
-                if ((r.hari || 'Hari 1') !== hari) return false;
-                return !(selesai <= r.mulai || mulai >= r.selesai);
+                const konflik = periodRundown.some(r => {
+                    if ((r.hari || 'Hari 1') !== hari) return false;
+                    return !(selesai <= r.mulai || mulai >= r.selesai);
+                });
+
+                if (konflik) {
+                    showToast(`Jam tersebut (${mulai} - ${selesai}) pada ${hari} sudah terisi oleh kegiatan lain!`, 'error');
+                    return;
+                }
+
+                await setDoc(doc(getCollectionRef('rundown')), { hari, mulai, selesai, kegiatan, kategoriUsia, pic, periodeId, createdAt: Date.now() });
+                closeModal('modal-rundown');
+                e.target.reset();
+                showToast('Jadwal berhasil ditambahkan & waktu dikunci');
             });
-
-            if (konflik) {
-                showToast(`Jam tersebut (${mulai} - ${selesai}) pada ${hari} sudah terisi oleh kegiatan lain!`, 'error');
-                return;
-            }
-
-            await simpanDataSheet('Rundown', { hari, mulai, selesai, kegiatan, kategoriUsia, pic, periodeId, createdAt: Date.now() });
-            closeModal('modal-rundown');
-            e.target.reset();
-            showToast('Jadwal berhasil ditambahkan');
-        });
+        }
 
         window.deleteRundown = async function(id) {
-            await hapusDataSheet('Rundown', id);
+            await deleteDoc(doc(getCollectionRef('rundown'), id));
             showToast('Jadwal dihapus');
         };
 
         const inputNominalKeuangan = document.getElementById('keuangan-jumlah');
-        inputNominalKeuangan.addEventListener('input', function(e) {
-            let val = this.value.replace(/[^,\d]/g, '').toString();
-            let split = val.split(',');
-            let sisa = split[0].length % 3;
-            let rupiah = split[0].substr(0, sisa);
-            let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+        if(inputNominalKeuangan) {
+            inputNominalKeuangan.addEventListener('input', function(e) {
+                let val = this.value.replace(/[^,\d]/g, '').toString();
+                let split = val.split(',');
+                let sisa = split[0].length % 3;
+                let rupiah = split[0].substr(0, sisa);
+                let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
-            if (ribuan) {
-                let separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
-            }
+                if (ribuan) {
+                    let separator = sisa ? '.' : '';
+                    rupiah += separator + ribuan.join('.');
+                }
 
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            this.value = rupiah;
-        });
+                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                this.value = rupiah;
+            });
+        }
 
-        document.getElementById('form-keuangan').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const tipe = document.getElementById('keuangan-tipe').value;
-            const keterangan = document.getElementById('keuangan-keterangan').value;
-            const rawJumlah = document.getElementById('keuangan-jumlah').value.replace(/\./g, '');
-            const jumlah = parseFloat(rawJumlah);
-            const periodeId = document.getElementById('keuangan-periode').value || getActivePeriodeId();
-            
-            await simpanDataSheet('Keuangan', { tipe, keterangan, jumlah, periodeId, createdAt: Date.now() });
-            closeModal('modal-keuangan');
-            e.target.reset();
-            showToast('Transaksi disimpan');
-        });
+        const formKeuanganEl = document.getElementById('form-keuangan');
+        if(formKeuanganEl) {
+            formKeuanganEl.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const tipe = document.getElementById('keuangan-tipe').value;
+                const keterangan = document.getElementById('keuangan-keterangan').value;
+                const rawJumlah = document.getElementById('keuangan-jumlah').value.replace(/\./g, '');
+                const jumlah = parseFloat(rawJumlah);
+                const periodeId = document.getElementById('keuangan-periode').value || getActivePeriodeId();
+                
+                await setDoc(doc(getCollectionRef('keuangan')), { tipe, keterangan, jumlah, periodeId, createdAt: Date.now() });
+                closeModal('modal-keuangan');
+                e.target.reset();
+                showToast('Transaksi disimpan');
+            });
+        }
 
         window.deleteKeuangan = async function(id) {
-            await hapusDataSheet('Keuangan', id);
+            await deleteDoc(doc(getCollectionRef('keuangan'), id));
             showToast('Transaksi dihapus');
         };
 
-        // Panggil untuk memulai fetch data dari App Script
-        initDataListeners();
+        initAuth();
     </script>
 </body>
 </html>
