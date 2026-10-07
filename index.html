@@ -115,6 +115,12 @@
         </div>
     </div>
 
+    <!-- Spinner Loading Fullscreen (Ditampilkan saat fetch data) -->
+    <div id="loading-overlay" class="fixed inset-0 bg-white/90 backdrop-blur-sm z-[150] flex flex-col items-center justify-center p-4 transition-all duration-300 hidden">
+         <i class="fas fa-circle-notch fa-spin text-4xl text-brand-600 mb-4"></i>
+         <p class="text-slate-600 font-bold text-sm animate-pulse">Sinkronisasi Data...</p>
+    </div>
+
     <div id="desktop-sidebar-container" class="w-72 flex-shrink-0 hidden md:flex flex-col relative z-50 transition-all duration-300 shadow-2xl">
         <aside class="bg-slate-900 text-slate-300 w-full h-full flex flex-col border-r border-slate-800 overflow-hidden relative">
             <div class="p-6 flex items-center gap-4 border-b border-slate-800/80 bg-slate-900/50 backdrop-blur-sm whitespace-nowrap">
@@ -898,11 +904,11 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="fixed bottom-6 right-6 z-[250] flex flex-col gap-3 pointer-events-none"></div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
+    <script>
+        // ==========================================
+        // GANTI URL INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+        // ==========================================
+        const APP_SCRIPT_URL = "URL_WEB_APP_ANDA_DISINI"; 
         const APP_PASSWORD = "kaummuda01"; 
 
         document.getElementById('form-password').addEventListener('submit', (e) => {
@@ -929,90 +935,125 @@
 
         window.state = { panitia: [], tugas: [], rundown: [], keuangan: [], periode: [], perlombaan: [] };
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'project-organisasi-01';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "AIzaSyDummyKeyForStandaloneHosting",
-            authDomain: "organisasi-km01.firebaseapp.com",
-            projectId: "organisasi-km01"
-        };
+        // --- Fungsi Fetch ke App Script ---
         
-        let app, db, auth;
-        let currentUserId = null;
-
-        try {
-            app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
-        } catch (e) {
-            console.error("Firebase init error:", e);
-        }
-
-        async function initAuth() {
-            if (!auth) return;
-            try {
-                if (typeof __initial_auth_token !== 'undefined') {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                currentUserId = auth.currentUser.uid;
-                initDataListeners(); 
-            } catch(error) {
-                console.error("Auth error:", error);
+        function showLoading(show) {
+            const el = document.getElementById('loading-overlay');
+            if (show) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
             }
         }
 
-        function getCollectionRef(colName) {
-            return collection(db, 'artifacts', appId, 'public', 'data', colName);
+        async function initDataListeners() {
+            showLoading(true);
+            try {
+                const response = await fetch(APP_SCRIPT_URL);
+                const data = await response.json();
+                
+                if (data.error) {
+                   console.error("Error dari server:", data.error);
+                   showToast("Gagal memuat data dari server", "error");
+                   showLoading(false);
+                   return;
+                }
+
+                // Parsing string JSON kembali ke Array/Object
+                if (data.perlombaan) {
+                    data.perlombaan = data.perlombaan.map(item => ({
+                        ...item,
+                        peserta: item.peserta ? JSON.parse(item.peserta) : [],
+                        bagan: item.bagan ? JSON.parse(item.bagan) : []
+                    }));
+                }
+                
+                // Parsing boolean di periode
+                if(data.periode) {
+                    data.periode = data.periode.map(p => ({
+                        ...p,
+                        aktif: p.aktif === "true" || p.aktif === true
+                    }));
+                }
+
+                window.state = {
+                    panitia: data.panitia || [],
+                    tugas: data.tugas || [],
+                    rundown: data.rundown || [],
+                    keuangan: data.keuangan || [],
+                    periode: data.periode || [],
+                    perlombaan: data.perlombaan || []
+                };
+
+                // Sorting data
+                ['tugas', 'keuangan', 'panitia', 'periode', 'perlombaan'].forEach(col => {
+                    window.state[col].sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+                });
+                
+                window.state.rundown.sort((a, b) => {
+                    if (a.hari !== b.hari) return (a.hari || 'Hari 1').localeCompare(b.hari || 'Hari 1');
+                    return (a.mulai || '').localeCompare(b.mulai || '');
+                });
+
+                populatePeriodeDropdowns();
+                renderSemua();
+                showLoading(false);
+                
+            } catch (e) {
+                console.error("Gagal menarik data:", e);
+                showToast("Gagal terhubung ke database", "error");
+                showLoading(false);
+            }
+        }
+
+        async function simpanDataSheet(sheetName, payload) {
+            showLoading(true);
+            try {
+                await fetch(APP_SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "insert", sheetName: sheetName, payload: payload })
+                });
+                await initDataListeners(); // Refresh
+            } catch (e) {
+                console.error(e);
+                showToast("Gagal menyimpan data", "error");
+                showLoading(false);
+            }
+        }
+
+        async function hapusDataSheet(sheetName, id) {
+            showLoading(true);
+            try {
+                await fetch(APP_SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "delete", sheetName: sheetName, id: id })
+                });
+                await initDataListeners(); // Refresh
+            } catch (e) {
+                console.error(e);
+                showToast("Gagal menghapus data", "error");
+                showLoading(false);
+            }
+        }
+        
+        async function updateDataSheet(sheetName, id, payload) {
+             showLoading(true);
+             try {
+                await fetch(APP_SCRIPT_URL, {
+                    method: "POST",
+                    body: JSON.stringify({ action: "update", sheetName: sheetName, id: id, payload: payload })
+                });
+                await initDataListeners();
+             } catch(e) {
+                console.error(e);
+                showToast("Gagal mengupdate data", "error");
+                showLoading(false);
+             }
         }
 
         function getActivePeriodeId() {
             const activeP = window.state.periode.find(p => p.aktif);
             return activeP ? activeP.id : (window.state.periode[0] ? window.state.periode[0].id : '');
-        }
-
-        function initDataListeners() {
-            const collections = ['panitia', 'tugas', 'rundown', 'keuangan', 'periode', 'perlombaan'];
-            
-            collections.forEach(colName => {
-                onSnapshot(getCollectionRef(colName), (snapshot) => {
-                    window.state[colName] = [];
-                    
-                    snapshot.forEach(docSnap => {
-                        let data = docSnap.data();
-                        if (colName === 'perlombaan' && data.bagan && typeof data.bagan === 'string') {
-                            try { data.bagan = JSON.parse(data.bagan); } catch(e) { data.bagan = []; }
-                        }
-                        window.state[colName].push({ id: docSnap.id, ...data });
-                    });
-
-                    if(['tugas', 'keuangan', 'panitia', 'periode', 'perlombaan'].includes(colName)) {
-                        window.state[colName].sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
-                    }
-                    if(colName === 'rundown') {
-                        window.state[colName].sort((a, b) => {
-                            if (a.hari !== b.hari) return (a.hari || 'Hari 1').localeCompare(b.hari || 'Hari 1');
-                            return (a.mulai || '').localeCompare(b.mulai || '');
-                        });
-                    }
-
-                    if (colName === 'periode') {
-                        populatePeriodeDropdowns(); 
-                    }
-
-                    renderDashboard();
-                    renderPanitia();
-                    renderTugas();
-                    renderRundown();
-                    renderKeuangan();
-                    renderPeriode();
-                    renderPerlombaan();
-                    if(window.activeLombaId) renderDetailLomba();
-
-                }, (error) => {
-                    console.error(`Error fetching ${colName}:`, error);
-                });
-            });
         }
 
         function populatePeriodeDropdowns() {
@@ -1094,10 +1135,7 @@
                     }
                 }
             });
-
-            if (viewId === 'dashboard') renderDashboard();
-            if (viewId === 'panitia') renderPanitia();
-            if (viewId === 'tugas') renderTugas();
+            renderSemua();
         };
 
         window.activeLombaId = null;
@@ -1166,6 +1204,17 @@
                 selectBelanja.innerHTML += opt;
                 selectPelaksanaan.innerHTML += opt;
             });
+        }
+        
+        function renderSemua() {
+            renderDashboard();
+            renderPanitia();
+            renderTugas();
+            renderRundown();
+            renderKeuangan();
+            renderPeriode();
+            renderPerlombaan();
+            if(window.activeLombaId) renderDetailLomba();
         }
 
         function renderDashboard() {
@@ -1607,17 +1656,17 @@
                                     
                                     return `
                                     <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white hover:border-brand-300 transition-colors">
-                                        <div class="text-[9px] bg-slate-50 text-center py-1.5 font-bold text-slate-400 border-b border-slate-200 uppercase tracking-widest">Match ${mIndex + 1} ${isLocked ? '<i class="fas fa-lock ml-1 text-slate-300"></i>' : ''}</div>
+                                        <div class="text-[9px] bg-slate-50 text-center py-1.5 font-bold text-slate-400 border-b border-slate-200 uppercase tracking-widest">Match ${mIndex + 1}${isLocked ? '<i class="fas fa-lock ml-1 text-slate-300"></i>' : ''}</div>
                                         <div class="flex flex-col">
-                                            <button onclick="setWinnerLomba(${rIndex}, ${mIndex}, '${match.p1}')" ${isLocked ? 'disabled' : ''} class="px-3 py-2.5 text-xs text-left font-bold transition-colors ${p1Win ? 'bg-emerald-50 text-emerald-700' : (isLocked ? 'text-slate-400 bg-slate-50 opacity-50' : 'text-slate-700 hover:bg-slate-50')}">
+                                            <button onclick="setWinnerLomba(${rIndex},${mIndex}, '${match.p1}')" ${isLocked ? 'disabled' : ''} class="px-3 py-2.5 text-xs text-left font-bold transition-colors ${p1Win ? 'bg-emerald-50 text-emerald-700' : (isLocked ? 'text-slate-400 bg-slate-50 opacity-50' : 'text-slate-700 hover:bg-slate-50')}">
                                                 ${p1Win ? '<i class="fas fa-check-circle mr-1"></i>' : ''}${match.p1}
                                             </button>
                                             <div class="h-px bg-slate-100 mx-3"></div>
-                                            <button onclick="setWinnerLomba(${rIndex}, ${mIndex}, '${match.p2 || ''}')" ${!match.p2 || isLocked ? 'disabled' : ''} class="px-3 py-2.5 text-xs text-left font-bold transition-colors ${p2Win ? 'bg-emerald-50 text-emerald-700' : (match.p2 && !isLocked ? 'text-slate-700 hover:bg-slate-50' : 'text-slate-400 italic bg-slate-50 opacity-50')}">
+                                            <button onclick="setWinnerLomba(${rIndex},${mIndex}, '${match.p2 \vert{}\vert{} ''}')" ${!match.p2 || isLocked ? 'disabled' : ''} class="px-3 py-2.5 text-xs text-left font-bold transition-colors ${p2Win ? 'bg-emerald-50 text-emerald-700' : (match.p2 && !isLocked ? 'text-slate-700 hover:bg-slate-50' : 'text-slate-400 italic bg-slate-50 opacity-50')}">
                                                 ${p2Win ? '<i class="fas fa-check-circle mr-1"></i>' : ''}${match.p2 || '(Kosong)'}
                                             </button>
                                             <div class="h-px bg-slate-100 mx-3"></div>
-                                            <button onclick="setWinnerLomba(${rIndex}, ${mIndex}, '${match.p3 || ''}')" ${!match.p3 || isLocked ? 'disabled' : ''} class="px-3 py-2.5 text-xs text-left font-bold transition-colors ${p3Win ? 'bg-emerald-50 text-emerald-700' : (match.p3 && !isLocked ? 'text-slate-700 hover:bg-slate-50' : 'text-slate-400 italic bg-slate-50 opacity-50')}">
+                                            <button onclick="setWinnerLomba(${rIndex},${mIndex}, '${match.p3 \vert{}\vert{} ''}')" ${!match.p3 || isLocked ? 'disabled' : ''} class="px-3 py-2.5 text-xs text-left font-bold transition-colors ${p3Win ? 'bg-emerald-50 text-emerald-700' : (match.p3 && !isLocked ? 'text-slate-700 hover:bg-slate-50' : 'text-slate-400 italic bg-slate-50 opacity-50')}">
                                                 ${p3Win ? '<i class="fas fa-check-circle mr-1"></i>' : ''}${match.p3 || '(Kosong)'}
                                             </button>
                                         </div>
@@ -1632,39 +1681,32 @@
             }
         }
 
+        // --- Event Listeners Form ---
+        
         document.getElementById('form-lomba').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!currentUserId) return;
             const namaLomba = document.getElementById('lomba-nama').value;
             const kategoriUsia = document.getElementById('lomba-kategori').value;
             const jenisLomba = document.getElementById('lomba-jenis').value;
             const periodeId = document.getElementById('lomba-periode').value || getActivePeriodeId();
 
-            try {
-                await setDoc(doc(getCollectionRef('perlombaan')), { 
-                    namaLomba, kategoriUsia, jenisLomba, periodeId,
-                    peserta: [], bagan: JSON.stringify([]), createdAt: Date.now() 
-                });
-                closeModal('modal-lomba');
-                e.target.reset();
-                showToast('Lomba berhasil ditambahkan');
-            } catch(err) {
-                showToast('Gagal menyimpan lomba', 'error');
-            }
+            await simpanDataSheet('Perlombaan', { 
+                namaLomba, kategoriUsia, jenisLomba, periodeId,
+                peserta: [], bagan: [], createdAt: Date.now() 
+            });
+            closeModal('modal-lomba');
+            e.target.reset();
+            showToast('Lomba berhasil ditambahkan');
         });
 
         window.deleteLomba = async function(id) {
-            if (!currentUserId) return;
-            await deleteDoc(doc(getCollectionRef('perlombaan'), id));
+            await hapusDataSheet('Perlombaan', id);
             showToast('Lomba dihapus');
         };
 
         document.getElementById('form-peserta-lomba').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!currentUserId || !window.activeLombaId) {
-                showToast('Koneksi terputus, tunggu sebentar.', 'error');
-                return;
-            }
+            if (!window.activeLombaId) return;
             const input = document.getElementById('input-peserta-lomba');
             const btn = document.getElementById('btn-tambah-peserta');
             const nama = input.value.trim();
@@ -1680,7 +1722,7 @@
                 btn.disabled = true;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; 
                 
-                await setDoc(doc(getCollectionRef('perlombaan'), window.activeLombaId), { peserta: pesertaBaru }, { merge: true });
+                await updateDataSheet('Perlombaan', window.activeLombaId, { peserta: pesertaBaru });
                 
                 input.value = '';
                 input.disabled = false;
@@ -1693,16 +1735,15 @@
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-plus mr-1"></i> Tambah';
                 showToast('Gagal menambahkan peserta.', 'error');
-                console.error(err);
             }
         });
 
         window.hapusPesertaLomba = async function(nama) {
-            if (!currentUserId || !window.activeLombaId) return;
+            if (!window.activeLombaId) return;
             const lomba = window.state.perlombaan.find(l => l.id === window.activeLombaId);
             if(!lomba) return;
             const pesertaBaru = (lomba.peserta || []).filter(p => p !== nama);
-            await setDoc(doc(getCollectionRef('perlombaan'), window.activeLombaId), { peserta: pesertaBaru }, { merge: true });
+            await updateDataSheet('Perlombaan', window.activeLombaId, { peserta: pesertaBaru });
         };
 
         function acakArray(array) {
@@ -1715,178 +1756,147 @@
         }
 
         window.generateNextRound = async function() {
-            try {
-                if (!currentUserId || !window.activeLombaId) return;
-                const lomba = window.state.perlombaan.find(l => l.id === window.activeLombaId);
-                if(!lomba) return;
+            if (!window.activeLombaId) return;
+            const lomba = window.state.perlombaan.find(l => l.id === window.activeLombaId);
+            if(!lomba) return;
 
-                let pesertaPool = [];
-                let baganSaatIni = lomba.bagan || [];
-                if (typeof baganSaatIni === 'string') {
-                    try { baganSaatIni = JSON.parse(baganSaatIni); } catch(e) { baganSaatIni = []; }
+            let pesertaPool = [];
+            let baganSaatIni = lomba.bagan || [];
+
+            if (baganSaatIni.length === 0) {
+                pesertaPool = lomba.peserta || [];
+                if(pesertaPool.length < 2) {
+                    showToast('Peserta minimal 2 orang untuk membuat bagan', 'error');
+                    return;
                 }
-                if (!Array.isArray(baganSaatIni)) baganSaatIni = [];
-
-                if (baganSaatIni.length === 0) {
-                    pesertaPool = lomba.peserta || [];
-                    if(pesertaPool.length < 2) {
-                        showToast('Peserta minimal 2 orang untuk membuat bagan', 'error');
-                        return;
-                    }
-                } else {
-                    const babakTerakhir = baganSaatIni[baganSaatIni.length - 1];
-                    let semuaSelesai = true;
-                    babakTerakhir.forEach(m => { if(!m.pemenang) semuaSelesai = false; });
-                    
-                    if(!semuaSelesai) {
-                        showToast('Pilih semua pemenang di babak saat ini terlebih dahulu!', 'error');
-                        return;
-                    }
-
-                    pesertaPool = babakTerakhir.map(m => m.pemenang).filter(Boolean);
-                    if(pesertaPool.length === 1) {
-                        showToast(`🎉 Lomba Selesai! Pemenang: ${pesertaPool[0]}`, 'success');
-                        return;
-                    }
-                }
-
-                const diacak = acakArray(pesertaPool);
-                const rondeBaru = [];
+            } else {
+                const babakTerakhir = baganSaatIni[baganSaatIni.length - 1];
+                let semuaSelesai = true;
+                babakTerakhir.forEach(m => { if(!m.pemenang) semuaSelesai = false; });
                 
-                for(let i = 0; i < diacak.length; i += 3) {
-                    const p1 = diacak[i] || "";
-                    const p2 = diacak[i+1] || null;
-                    const p3 = diacak[i+2] || null;
-                    
-                    let pemenangOtomatis = null;
-                    if (!p2 && !p3 && p1) {
-                        pemenangOtomatis = p1;
-                    }
-
-                    rondeBaru.push({ p1: p1, p2: p2, p3: p3, pemenang: pemenangOtomatis });
+                if(!semuaSelesai) {
+                    showToast('Pilih semua pemenang di babak saat ini terlebih dahulu!', 'error');
+                    return;
                 }
 
-                const serializedBagan = baganSaatIni.map(ronde => ronde.map(m => ({
-                    p1: m.p1 || "",
-                    p2: m.p2 || null,
-                    p3: m.p3 || null,
-                    pemenang: m.pemenang || null
-                })));
-                serializedBagan.push(rondeBaru);
-
-                const finalStringBagan = JSON.stringify(serializedBagan);
-                await setDoc(doc(getCollectionRef('perlombaan'), window.activeLombaId), { bagan: finalStringBagan }, { merge: true });
-                showToast('Babak baru berhasil dibuat!');
-                
-            } catch (error) {
-                console.error("Terjadi error saat generate bagan:", error);
-                showToast('Gagal memproses bagan.', 'error');
+                pesertaPool = babakTerakhir.map(m => m.pemenang).filter(Boolean);
+                if(pesertaPool.length === 1) {
+                    showToast(`🎉 Lomba Selesai! Pemenang: ${pesertaPool[0]}`, 'success');
+                    return;
+                }
             }
+
+            const diacak = acakArray(pesertaPool);
+            const rondeBaru = [];
+            
+            for(let i = 0; i < diacak.length; i += 3) {
+                const p1 = diacak[i] || "";
+                const p2 = diacak[i+1] || null;
+                const p3 = diacak[i+2] || null;
+                
+                let pemenangOtomatis = null;
+                if (!p2 && !p3 && p1) {
+                    pemenangOtomatis = p1;
+                }
+                rondeBaru.push({ p1: p1, p2: p2, p3: p3, pemenang: pemenangOtomatis });
+            }
+
+            const baganBaru = [...baganSaatIni, rondeBaru];
+            await updateDataSheet('Perlombaan', window.activeLombaId, { bagan: baganBaru });
+            showToast('Babak baru berhasil dibuat!');
         };
 
         window.setWinnerLomba = async function(rIndex, mIndex, winnerName) {
-            try {
-                if (!currentUserId || !window.activeLombaId || !winnerName) return;
-                const lomba = window.state.perlombaan.find(l => l.id === window.activeLombaId);
-                if(!lomba) return;
-                
-                let baganSaatIni = lomba.bagan || [];
-                if (typeof baganSaatIni === 'string') {
-                    try { baganSaatIni = JSON.parse(baganSaatIni); } catch(e) { baganSaatIni = []; }
-                }
-                if (!Array.isArray(baganSaatIni)) baganSaatIni = [];
-
-                const currentMatch = baganSaatIni[rIndex][mIndex];
-                if (currentMatch && currentMatch.pemenang !== null) {
-                    showToast('Pemenang untuk match ini sudah dikunci.', 'error');
-                    return;
-                }
-                
-                const baganBaru = baganSaatIni.map((ronde, ri) => ronde.map((match, mi) => {
-                    let pemenangVal = match.pemenang;
-                    if (ri === rIndex && mi === mIndex) {
-                        pemenangVal = winnerName;
-                    }
-                    return {
-                        p1: match.p1 || "",
-                        p2: match.p2 || null,
-                        p3: match.p3 || null,
-                        pemenang: pemenangVal || null
-                    };
-                }));
-
-                const finalStringBagan = JSON.stringify(baganBaru);
-                await setDoc(doc(getCollectionRef('perlombaan'), window.activeLombaId), { bagan: finalStringBagan }, { merge: true });
-                showToast(`Pemenang dikunci: ${winnerName}`);
-            } catch (error) {
-                console.error("Terjadi error saat menetapkan pemenang:", error);
-                showToast('Gagal menetapkan pemenang.', 'error');
+            if (!window.activeLombaId || !winnerName) return;
+            const lomba = window.state.perlombaan.find(l => l.id === window.activeLombaId);
+            if(!lomba) return;
+            
+            let baganSaatIni = lomba.bagan || [];
+            const currentMatch = baganSaatIni[rIndex][mIndex];
+            if (currentMatch && currentMatch.pemenang !== null) {
+                showToast('Pemenang untuk match ini sudah dikunci.', 'error');
+                return;
             }
+            
+            const baganBaru = baganSaatIni.map((ronde, ri) => ronde.map((match, mi) => {
+                let pemenangVal = match.pemenang;
+                if (ri === rIndex && mi === mIndex) {
+                    pemenangVal = winnerName;
+                }
+                return {
+                    p1: match.p1 || "",
+                    p2: match.p2 || null,
+                    p3: match.p3 || null,
+                    pemenang: pemenangVal || null
+                };
+            }));
+
+            await updateDataSheet('Perlombaan', window.activeLombaId, { bagan: baganBaru });
+            showToast(`Pemenang dikunci: ${winnerName}`);
         };
 
         document.getElementById('form-periode').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!currentUserId) return;
             const nama = document.getElementById('periode-nama').value;
             const rentang = document.getElementById('periode-rentang').value;
             const aktif = document.getElementById('periode-aktif').checked;
-            try {
-                if (aktif && window.state.periode.length > 0) {
-                    for (let p of window.state.periode) {
-                        await setDoc(doc(getCollectionRef('periode'), p.id), { aktif: false }, { merge: true });
-                    }
+            
+            if (aktif && window.state.periode.length > 0) {
+                for (let p of window.state.periode) {
+                    // Update sheet secara seri untuk menghindari race condition
+                    await fetch(APP_SCRIPT_URL, {
+                       method: "POST", body: JSON.stringify({ action: "update", sheetName: "Periode", id: p.id, payload: { aktif: false } })
+                    });
                 }
-                await setDoc(doc(getCollectionRef('periode')), { nama, rentang, aktif: aktif || window.state.periode.length === 0, createdAt: Date.now() });
-                closeModal('modal-periode');
-                e.target.reset();
-                showToast('Periode berhasil ditambahkan');
-            } catch(err) {
-                console.error(err);
-                showToast('Gagal menyimpan periode', 'error');
             }
+            
+            await simpanDataSheet('Periode', { nama, rentang, aktif: aktif || window.state.periode.length === 0, createdAt: Date.now() });
+            closeModal('modal-periode');
+            e.target.reset();
+            showToast('Periode berhasil ditambahkan');
         });
 
         window.setPeriodeAktif = async function(id) {
-            if (!currentUserId) return;
+            showLoading(true);
             try {
                 for (let p of window.state.periode) {
-                    await setDoc(doc(getCollectionRef('periode'), p.id), { aktif: p.id === id }, { merge: true });
+                    await fetch(APP_SCRIPT_URL, {
+                       method: "POST", body: JSON.stringify({ action: "update", sheetName: "Periode", id: p.id, payload: { aktif: p.id === id } })
+                    });
                 }
+                await initDataListeners();
                 showToast('Periode aktif diperbarui');
             } catch(e) {
                 showToast('Gagal mengubah status', 'error');
+                showLoading(false);
             }
         };
 
         window.deletePeriode = async function(id) {
-            if (!currentUserId) return;
-            await deleteDoc(doc(getCollectionRef('periode'), id));
+            await hapusDataSheet('Periode', id);
             showToast('Periode dihapus');
         };
 
         document.getElementById('form-panitia').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!currentUserId) return;
             const nama = document.getElementById('panitia-nama').value;
             const divisi = document.getElementById('panitia-divisi').value;
             const peran = document.getElementById('panitia-peran').value;
             const periodeId = document.getElementById('panitia-periode').value || getActivePeriodeId();
             
-            await setDoc(doc(getCollectionRef('panitia')), { nama, divisi, peran, periodeId, createdAt: Date.now() });
+            await simpanDataSheet('Panitia', { nama, divisi, peran, periodeId, createdAt: Date.now() });
             closeModal('modal-panitia');
             e.target.reset();
             showToast('Pengurus berhasil ditambahkan');
         });
 
         window.deletePanitia = async function(id) {
-            if (!currentUserId) return;
-            await deleteDoc(doc(getCollectionRef('panitia'), id));
+            await hapusDataSheet('Panitia', id);
             showToast('Pengurus dihapus');
         };
 
         document.getElementById('form-tugas').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!currentUserId) return;
             const judul = document.getElementById('tugas-judul').value;
             const keterangan = document.getElementById('tugas-keterangan').value;
             const picBelanja = document.getElementById('tugas-pic-belanja').value;
@@ -1894,7 +1904,7 @@
             const prioritas = document.getElementById('tugas-prioritas').value;
             const periodeId = document.getElementById('tugas-periode').value || getActivePeriodeId();
 
-            await setDoc(doc(getCollectionRef('tugas')), { 
+            await simpanDataSheet('Tugas', { 
                 judul, keterangan, picBelanja, picPelaksanaan, prioritas, periodeId, status: 'todo', createdAt: Date.now() 
             });
             closeModal('modal-tugas');
@@ -1903,19 +1913,16 @@
         });
 
         window.updateTaskStatus = async function(id, status) {
-            if (!currentUserId) return;
-            await setDoc(doc(getCollectionRef('tugas'), id), { status }, { merge: true });
+            await updateDataSheet('Tugas', id, { status: status });
         };
 
         window.deleteTugas = async function(id) {
-            if (!currentUserId) return;
-            await deleteDoc(doc(getCollectionRef('tugas'), id));
+            await hapusDataSheet('Tugas', id);
             showToast('Tugas dihapus');
         };
 
         document.getElementById('form-rundown').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!currentUserId) return;
             const hari = document.getElementById('rundown-hari').value;
             const mulai = document.getElementById('rundown-mulai').value;
             const selesai = document.getElementById('rundown-selesai').value;
@@ -1936,15 +1943,14 @@
                 return;
             }
 
-            await setDoc(doc(getCollectionRef('rundown')), { hari, mulai, selesai, kegiatan, kategoriUsia, pic, periodeId, createdAt: Date.now() });
+            await simpanDataSheet('Rundown', { hari, mulai, selesai, kegiatan, kategoriUsia, pic, periodeId, createdAt: Date.now() });
             closeModal('modal-rundown');
             e.target.reset();
-            showToast('Jadwal berhasil ditambahkan & waktu dikunci');
+            showToast('Jadwal berhasil ditambahkan');
         });
 
         window.deleteRundown = async function(id) {
-            if (!currentUserId) return;
-            await deleteDoc(doc(getCollectionRef('rundown'), id));
+            await hapusDataSheet('Rundown', id);
             showToast('Jadwal dihapus');
         };
 
@@ -1967,26 +1973,25 @@
 
         document.getElementById('form-keuangan').addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!currentUserId) return;
             const tipe = document.getElementById('keuangan-tipe').value;
             const keterangan = document.getElementById('keuangan-keterangan').value;
             const rawJumlah = document.getElementById('keuangan-jumlah').value.replace(/\./g, '');
             const jumlah = parseFloat(rawJumlah);
             const periodeId = document.getElementById('keuangan-periode').value || getActivePeriodeId();
             
-            await setDoc(doc(getCollectionRef('keuangan')), { tipe, keterangan, jumlah, periodeId, createdAt: Date.now() });
+            await simpanDataSheet('Keuangan', { tipe, keterangan, jumlah, periodeId, createdAt: Date.now() });
             closeModal('modal-keuangan');
             e.target.reset();
             showToast('Transaksi disimpan');
         });
 
         window.deleteKeuangan = async function(id) {
-            if (!currentUserId) return;
-            await deleteDoc(doc(getCollectionRef('keuangan'), id));
+            await hapusDataSheet('Keuangan', id);
             showToast('Transaksi dihapus');
         };
 
-        initAuth();
+        // Panggil untuk memulai fetch data dari App Script
+        initDataListeners();
     </script>
 </body>
 </html>
