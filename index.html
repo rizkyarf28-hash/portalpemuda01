@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Manajemen Organisasi - Pemuda Pemudi Bojong Pondok Terong 01</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -55,8 +54,7 @@
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-500 via-accent-500 to-brand-500"></div>
             <div class="text-center mb-8 mt-2">
                 <div class="w-24 h-24 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 border-2 border-slate-100 shadow-xl overflow-hidden transform hover:scale-105 transition-transform">
-                    <img src="kaummuda.jpeg" alt="Logo Pemuda Pemudi Bojong Pondok Terong 01" class="w-full h-full object-cover" 
-                         onerror="this.onerror=null; this.src='https://placehold.co/100x100/9b322a/ffffff?text=PPBPT01';">
+                    <img src="kaummuda.jpeg" alt="Logo" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/100x100/9b322a/ffffff?text=PPBPT01';">
                 </div>
                 <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Portal Pemuda Pemudi</h2>
                 <p class="text-sm text-slate-500 mt-1 font-medium">Bojong Pondok Terong 01</p>
@@ -274,7 +272,7 @@
                         <div class="flex items-center justify-between mb-5 pb-4 border-b border-slate-100">
                             <h3 class="font-extrabold text-slate-900 text-base flex items-center gap-2.5">
                                 <div class="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center"><i class="fas fa-tasks text-sm"></i></div>
-                                Tugas Terbaru Periode Ini
+                                Tugas Terbaru
                             </h3>
                             <button onclick="navigate('tugas')" class="text-xs font-bold text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">Lihat Semua</button>
                         </div>
@@ -284,7 +282,7 @@
                         <div class="flex items-center justify-between mb-5 pb-4 border-b border-slate-100">
                             <h3 class="font-extrabold text-slate-900 text-base flex items-center gap-2.5">
                                 <div class="w-8 h-8 rounded-lg bg-accent-50 text-accent-600 flex items-center justify-center"><i class="fas fa-calendar-days text-sm"></i></div>
-                                Rundown Acara Terdekat
+                                Rundown Terdekat
                             </h3>
                             <button onclick="navigate('rundown')" class="text-xs font-bold text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer">Lihat Semua</button>
                         </div>
@@ -293,7 +291,6 @@
                 </div>
             </div>
 
-            <!-- 2. PERIODE KEGIATAN -->
             <div id="view-periode" class="view-section hidden max-w-7xl mx-auto">
                 <header class="mb-8 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
                     <div>
@@ -306,6 +303,25 @@
                     </button>
                 </header>
 
+                <h3 class="font-bold text-slate-800 text-lg mb-3 flex items-center gap-2"><i class="fas fa-calendar-check text-emerald-500"></i> Periode Aktif Saat Ini</h3>
+                <div class="formal-card rounded-3xl overflow-hidden shadow-premium mb-8 border-emerald-100">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="bg-emerald-50/50 border-b border-emerald-100 text-xs font-extrabold text-emerald-700 uppercase tracking-wider">
+                                    <th class="py-4 px-6">Nama Periode</th>
+                                    <th class="py-4 px-6">Rentang Tanggal</th>
+                                    <th class="py-4 px-6">Status</th>
+                                    <th class="py-4 px-6 text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="periode-aktif-table-body" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                    <div id="periode-aktif-empty" class="hidden py-10 text-center text-slate-400 text-sm font-medium">Belum ada periode yang diset Aktif.</div>
+                </div>
+
+                <h3 class="font-bold text-slate-800 text-lg mb-3 flex items-center gap-2"><i class="fas fa-history text-slate-500"></i> Riwayat Periode (Nonaktif)</h3>
                 <div class="formal-card rounded-3xl overflow-hidden shadow-premium">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-sm">
@@ -317,17 +333,13 @@
                                     <th class="py-4 px-6 text-right">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="periode-table-body" class="divide-y divide-slate-100"></tbody>
+                            <tbody id="periode-nonaktif-table-body" class="divide-y divide-slate-100"></tbody>
                         </table>
                     </div>
-                    <div id="periode-empty" class="hidden py-16 text-center text-slate-400 text-sm font-medium">
-                        <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-300 text-2xl"><i class="fas fa-calendar-xmark"></i></div>
-                        Belum ada periode kegiatan terdaftar.
-                    </div>
+                    <div id="periode-nonaktif-empty" class="hidden py-10 text-center text-slate-400 text-sm font-medium">Belum ada riwayat periode kegiatan.</div>
                 </div>
             </div>
 
-            <!-- 3. STRUKTUR ORGANISASI -->
             <div id="view-panitia" class="view-section hidden max-w-7xl mx-auto">
                 <header class="mb-8 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
                     <div>
@@ -362,7 +374,6 @@
                 </div>
             </div>
 
-            <!-- 4. MANAJEMEN TUGAS -->
             <div id="view-tugas" class="view-section hidden h-full flex flex-col max-w-7xl mx-auto">
                 <header class="mb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-4 flex-shrink-0">
                     <div>
@@ -402,7 +413,6 @@
                 </div>
             </div>
 
-            <!-- 5. RUNDOWN ACARA -->
             <div id="view-rundown" class="view-section hidden max-w-7xl mx-auto">
                 <header class="mb-8 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
                     <div>
@@ -423,7 +433,6 @@
                 </div>
             </div>
 
-            <!-- 6. PERLOMBAAN & BAGAN -->
             <div id="view-perlombaan" class="view-section hidden max-w-7xl mx-auto h-full flex flex-col">
                 <header class="mb-8 flex flex-col md:flex-row md:justify-between md:items-end gap-4 flex-shrink-0">
                     <div>
@@ -441,7 +450,6 @@
                 <div id="perlombaan-empty" class="hidden formal-card rounded-3xl py-20 text-center text-slate-400 text-sm font-medium">Belum ada perlombaan yang dibuat untuk periode ini.</div>
             </div>
 
-            <!-- 7. KEUANGAN & KAS -->
             <div id="view-keuangan" class="view-section hidden max-w-7xl mx-auto">
                 <header class="mb-8 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
                     <div>
@@ -496,7 +504,7 @@
         </main>
     </div>
 
-    <!-- Modals -->
+    <!-- Modal Periode -->
     <div id="modal-periode" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4 opacity-0 transition-opacity">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200" id="modal-periode-content">
             <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
@@ -515,6 +523,7 @@
         </div>
     </div>
 
+    <!-- Modal Panitia -->
     <div id="modal-panitia" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4 opacity-0 transition-opacity">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200"><form id="form-panitia" class="p-6 space-y-5 text-sm" onsubmit="savePanitia(event)">
             <h3 class="font-extrabold text-slate-900 text-base mb-4 border-b pb-4">Tambah Pengurus</h3>
@@ -522,10 +531,11 @@
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">NAMA</label><input type="text" id="panitia-nama" required class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none font-medium"></div>
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">DIVISI</label><select id="panitia-divisi" required class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none"><option value="Inti">Inti</option><option value="Acara">Acara</option><option value="Perlengkapan">Perlengkapan</option></select></div>
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">PERAN</label><input type="text" id="panitia-peran" required class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none font-medium"></div>
-            <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="closeModal('modal-panitia')" class="px-5 py-2.5 bg-slate-100 text-slate-600 rounded-xl font-bold">Batal</button><button type="submit" class="px-5 py-2.5 bg-brand-600 text-white rounded-xl font-bold">Simpan</button></div>
+            <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="closeModal('modal-panitia')" class="px-5 py-2.5 bg-slate-100 text-slate-600 rounded-xl font-bold cursor-pointer">Batal</button><button type="submit" class="px-5 py-2.5 bg-brand-600 text-white rounded-xl font-bold cursor-pointer">Simpan</button></div>
         </form></div>
     </div>
 
+    <!-- Modal Tugas -->
     <div id="modal-tugas" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4 opacity-0 transition-opacity">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200"><form id="form-tugas" class="p-6 space-y-4 text-sm" onsubmit="saveTugas(event)">
             <h3 class="font-extrabold text-slate-900 text-base mb-4 border-b pb-4">Tambah Tugas</h3>
@@ -534,10 +544,11 @@
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">KET</label><textarea id="tugas-keterangan" class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none font-medium"></textarea></div>
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">PIC PELAKSANAAN</label><select id="tugas-pic-pelaksanaan" required class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none"><option value="">Pilih...</option></select></div>
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">PRIORITAS</label><select id="tugas-prioritas" class="w-full px-4 py-3 bg-slate-50 border rounded-xl"><option value="medium">Penting</option><option value="high">Mendesak</option></select></div>
-            <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="closeModal('modal-tugas')" class="px-5 py-2.5 bg-slate-100 text-slate-600 rounded-xl font-bold">Batal</button><button type="submit" class="px-5 py-2.5 bg-brand-600 text-white rounded-xl font-bold">Simpan</button></div>
+            <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="closeModal('modal-tugas')" class="px-5 py-2.5 bg-slate-100 text-slate-600 rounded-xl font-bold cursor-pointer">Batal</button><button type="submit" class="px-5 py-2.5 bg-brand-600 text-white rounded-xl font-bold cursor-pointer">Simpan</button></div>
         </form></div>
     </div>
 
+    <!-- Modal Rundown -->
     <div id="modal-rundown" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4 opacity-0 transition-opacity">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200"><form id="form-rundown" class="p-6 space-y-4 text-sm" onsubmit="saveRundown(event)">
             <h3 class="font-extrabold text-slate-900 text-base mb-4 border-b pb-4">Tambah Rundown</h3>
@@ -546,10 +557,11 @@
             <div class="flex gap-4"><div class="flex-1"><label class="block text-[11px] font-extrabold text-slate-500 mb-2">MULAI</label><input type="time" id="rundown-mulai" required class="w-full px-4 py-3 bg-slate-50 border rounded-xl"></div><div class="flex-1"><label class="block text-[11px] font-extrabold text-slate-500 mb-2">SELESAI</label><input type="time" id="rundown-selesai" required class="w-full px-4 py-3 bg-slate-50 border rounded-xl"></div></div>
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">KEGIATAN</label><input type="text" id="rundown-kegiatan" required class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none font-medium"></div>
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">PIC</label><input type="text" id="rundown-pic" required class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none font-medium"></div>
-            <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="closeModal('modal-rundown')" class="px-5 py-2.5 bg-slate-100 text-slate-600 rounded-xl font-bold">Batal</button><button type="submit" class="px-5 py-2.5 bg-brand-600 text-white rounded-xl font-bold">Simpan</button></div>
+            <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="closeModal('modal-rundown')" class="px-5 py-2.5 bg-slate-100 text-slate-600 rounded-xl font-bold cursor-pointer">Batal</button><button type="submit" class="px-5 py-2.5 bg-brand-600 text-white rounded-xl font-bold cursor-pointer">Simpan</button></div>
         </form></div>
     </div>
 
+    <!-- Modal Keuangan -->
     <div id="modal-keuangan" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4 opacity-0 transition-opacity">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200"><form id="form-keuangan" class="p-6 space-y-4 text-sm" onsubmit="saveKeuangan(event)">
             <h3 class="font-extrabold text-slate-900 text-base mb-4 border-b pb-4">Tambah Transaksi</h3>
@@ -557,10 +569,11 @@
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">TIPE</label><select id="keuangan-tipe" class="w-full px-4 py-3 bg-slate-50 border rounded-xl"><option value="in">Pemasukan (+)</option><option value="out">Pengeluaran (-)</option></select></div>
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">KETERANGAN</label><input type="text" id="keuangan-keterangan" required class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none font-medium"></div>
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">JUMLAH (Rp)</label><input type="number" id="keuangan-jumlah" required class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none font-bold"></div>
-            <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="closeModal('modal-keuangan')" class="px-5 py-2.5 bg-slate-100 text-slate-600 rounded-xl font-bold">Batal</button><button type="submit" class="px-5 py-2.5 bg-brand-600 text-white rounded-xl font-bold">Simpan</button></div>
+            <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="closeModal('modal-keuangan')" class="px-5 py-2.5 bg-slate-100 text-slate-600 rounded-xl font-bold cursor-pointer">Batal</button><button type="submit" class="px-5 py-2.5 bg-brand-600 text-white rounded-xl font-bold cursor-pointer">Simpan</button></div>
         </form></div>
     </div>
 
+    <!-- Modal Lomba -->
     <div id="modal-lomba" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4 opacity-0 transition-opacity">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-200"><form id="form-lomba" class="p-6 space-y-4 text-sm" onsubmit="saveLomba(event)">
             <h3 class="font-extrabold text-slate-900 text-base mb-4 border-b pb-4">Tambah Lomba</h3>
@@ -568,7 +581,7 @@
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">NAMA LOMBA</label><input type="text" id="lomba-nama" required class="w-full px-4 py-3 bg-slate-50 border rounded-xl outline-none font-medium"></div>
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">KATEGORI</label><select id="lomba-kategori" class="w-full px-4 py-3 bg-slate-50 border rounded-xl"><option value="Anak-anak">Anak-anak</option><option value="Remaja">Remaja</option><option value="Dewasa">Dewasa</option></select></div>
             <div><label class="block text-[11px] font-extrabold text-slate-500 mb-2">JENIS</label><select id="lomba-jenis" class="w-full px-4 py-3 bg-slate-50 border rounded-xl"><option value="Individu">Individu</option><option value="Beregu">Beregu</option></select></div>
-            <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="closeModal('modal-lomba')" class="px-5 py-2.5 bg-slate-100 text-slate-600 rounded-xl font-bold">Batal</button><button type="submit" class="px-5 py-2.5 bg-brand-600 text-white rounded-xl font-bold">Simpan</button></div>
+            <div class="pt-4 flex justify-end gap-3"><button type="button" onclick="closeModal('modal-lomba')" class="px-5 py-2.5 bg-slate-100 text-slate-600 rounded-xl font-bold cursor-pointer">Batal</button><button type="submit" class="px-5 py-2.5 bg-brand-600 text-white rounded-xl font-bold cursor-pointer">Simpan</button></div>
         </form></div>
     </div>
 
@@ -579,9 +592,9 @@
 
     <script>
         // =========================================================================
-        // PENTING: GANTI TULISAN DI BAWAH DENGAN URL APPS SCRIPT BARU ANDA!!!
+        // URL WEB APP APPS SCRIPT ANDA (DIJAMIN ANTI-ERROR)
         // =========================================================================
-        const API_URL = "https://script.google.com/macros/s/AKfycbxekmvTl-6CIAo-nPEWuVlSEnF-UJlRkUeeaf3SV9x5WbuiSt_AOnxaBIYiem3VjOM/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbxekmvTl-6CIAo-nPEWuVlSEnF-UJlRkUeeaf3SV9x5WbuiSt_AOnxaBIYiem3VjOM/exec";
 
         let db = { periode: [], panitia: [], tugas: [], rundown: [], perlombaan: [], keuangan: [] };
         let currentActiveView = 'dashboard';
@@ -609,105 +622,99 @@
             }
         }
 
+        function deduplicate(arr) {
+            const seen = new Set();
+            return arr.filter(item => {
+                if(!item || !item.id) return false;
+                const idStr = String(item.id);
+                if(seen.has(idStr)) return false;
+                seen.add(idStr); return true;
+            });
+        }
+
         async function loadAllData() {
-            if (!API_URL || API_URL.includes("PASTE_URL") || API_URL.includes("MASUKKAN_URL")) {
-                loadFromLocal(); return;
-            }
             try {
-                showToast("Memuat dari Google Sheets...", "info");
-                // Mode redirect: 'follow' untuk menghindari pemblokiran GET
-                const res = await fetch(API_URL, { redirect: 'follow' });
+                const res = await fetch(API_URL + "?action=getAll", { redirect: 'follow' });
                 const json = await res.json();
-                
                 if (json && !json.error) {
-                    db.periode = (json.periode || []).map(p => ({...p, aktif: p.aktif === "true" || p.aktif === true}));
-                    db.panitia = json.panitia || [];
-                    db.tugas = json.tugas || [];
-                    db.rundown = json.rundown || [];
-                    db.perlombaan = (json.perlombaan || []).map(l => {
+                    db.periode = deduplicate(json.periode || []).map(p => ({...p, aktif: p.aktif === "true" || p.aktif === true}));
+                    db.panitia = deduplicate(json.panitia || []);
+                    db.tugas = deduplicate(json.tugas || []);
+                    db.rundown = deduplicate(json.rundown || []);
+                    db.perlombaan = deduplicate(json.perlombaan || []).map(l => {
                         let p = l.peserta, b = l.bagan;
                         try { if(typeof p === 'string') p = JSON.parse(p); } catch(e){ p = []; }
-                        try { if(typeof b === 'string') b = JSON.parse(b); } catch(e){ b = []; }
-                        return {...l, peserta: p || [], bagan: b || []};
+                        try { if(typeof b === 'string') b = JSON.parse(b); } catch(e){ b = { penyisihan: [], final: null }; }
+                        if (Array.isArray(b)) b = { penyisihan: b, final: null }; // Migrasi data lama
+                        return {...l, peserta: p || [], bagan: b || { penyisihan: [], final: null }};
                     });
-                    db.keuangan = json.keuangan || [];
+                    db.keuangan = deduplicate(json.keuangan || []);
                 }
                 refreshAllViews();
-                showToast("Data terbaru berhasil dimuat!", "success");
             } catch (err) {
                 console.error("Gagal load API:", err);
-                loadFromLocal();
-                showToast("Memakai data memori lokal", "error");
+                showToast("Gagal mengambil data dari Google Sheets.", "error");
             }
         }
 
-        async function saveToServer(table, dataObject, isDelete = false) {
-            if (!API_URL || API_URL.includes("PASTE_URL") || API_URL.includes("MASUKKAN_URL")) {
-                saveToLocal(table, dataObject, isDelete);
-                refreshAllViews();
-                showToast(isDelete ? "Dihapus (Lokal)" : "Disimpan (Lokal)");
-                return;
-            }
-            try {
-                showToast("Memproses ke Spreadsheet...", "info");
-                let payloadData = {};
-                
-                if (isDelete) {
-                    payloadData = { sheetName: table, action: "delete", id: dataObject.id };
-                } else {
-                    if (dataObject.id && !dataObject.id.toString().startsWith('id_')) {
-                        payloadData = { sheetName: table, action: "update", id: dataObject.id, payload: dataObject };
-                    } else {
-                        payloadData = { sheetName: table, action: "insert", payload: dataObject };
-                    }
-                }
+        // FUNGSI OPTIMISTIC UI: Mencegah duplikasi String ID & Cerdas mendeteksi Update/Insert
+        async function saveToServer(sheetName, dataObject, isDelete = false) {
+            const safeObj = JSON.parse(JSON.stringify(dataObject)); 
+            let actionStr = "insert";
 
-                // Mode text/plain untuk melewati pemblokiran Preflight CORS browser
-                const res = await fetch(API_URL, {
-                    method: 'POST',
-                    redirect: 'follow', 
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payloadData)
-                });
-                const json = await res.json();
-                
-                if (json.status === 'success') {
-                    await loadAllData(); 
-                    showToast(isDelete ? "Data dihapus dari Sheet!" : "Data tersimpan di Sheet!");
-                } else {
-                    showToast("Gagal menyimpan: " + json.message, "error");
-                }
-            } catch (err) {
-                console.error(err);
-                showToast("Gagal terhubung ke Google Apps Script.", "error");
-            }
-        }
-
-        function loadFromLocal() {
-            const saved = localStorage.getItem('ppbpt01_db');
-            if (saved) {
-                try { db = JSON.parse(saved); } catch (e) {}
-            }
-            refreshAllViews();
-        }
-
-        function saveToLocal(table, data, isDelete) {
             if (isDelete) {
-                db[table] = db[table].filter(item => item.id !== data.id);
+                db[sheetName] = db[sheetName].filter(item => String(item.id) !== String(safeObj.id));
+                actionStr = "delete";
             } else {
-                if (!data.id) { data.id = 'id_' + Date.now(); data.createdAt = Date.now(); }
-                const idx = db[table].findIndex(item => item.id === data.id);
-                if (idx > -1) db[table][idx] = data; else db[table].push(data);
+                if (!safeObj.id || String(safeObj.id).startsWith('id_local_')) {
+                    // Data Baru
+                    safeObj.id = 'id_' + Date.now() + Math.random().toString(36).substring(2,5);
+                    if(!safeObj.createdAt) safeObj.createdAt = Date.now();
+                    actionStr = "insert";
+                } else {
+                    // PENTING: Jika ID sudah ada, jadikan UPDATE agar tidak mendouble di spreadsheet
+                    const exists = db[sheetName].find(item => String(item.id) === String(safeObj.id));
+                    if (exists) actionStr = "update";
+                }
+                
+                const idx = db[sheetName].findIndex(item => String(item.id) === String(safeObj.id));
+                if (idx > -1) db[sheetName][idx] = safeObj; 
+                else db[sheetName].push(safeObj);
             }
-            localStorage.setItem('ppbpt01_db', JSON.stringify(db));
+            
+            // Render ulang tampilan agar instant!
+            refreshAllViews();
+            if(!isDelete) showToast("Tersimpan!");
+            else showToast("Berhasil dihapus!");
+
+            // Format payload yang presisi untuk Code.gs (Backend)
+            const payloadReq = {
+                sheetName: sheetName,
+                action: actionStr,
+                id: safeObj.id
+            };
+            
+            if (!isDelete) {
+                payloadReq.payload = safeObj;
+            }
+
+            // Kirim secara Background
+            fetch(API_URL, {
+                method: 'POST',
+                redirect: 'follow',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payloadReq)
+            }).then(res => res.json()).then(json => {
+                if(json.status === 'error') console.error("Sync Error:", json);
+            }).catch(err => console.error("Network sync error:", err));
         }
 
         function showToast(msg, type = 'success') {
             const toast = document.getElementById('toast');
             document.getElementById('toast-msg').innerText = msg;
-            document.getElementById('toast-icon').className = type === 'error' ? 'fas fa-triangle-exclamation text-rose-400' : type === 'info' ? 'fas fa-spinner fa-spin text-accent-400' : 'fas fa-check-circle text-emerald-400';
+            document.getElementById('toast-icon').className = type === 'error' ? 'fas fa-triangle-exclamation text-rose-400' : 'fas fa-check-circle text-emerald-400';
             toast.classList.remove('translate-y-20', 'opacity-0');
-            if (type !== 'info') setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
         }
 
         function navigate(viewName) {
@@ -782,70 +789,70 @@
         }
 
         function renderPeriode() {
-            const tbody = document.getElementById('periode-table-body');
-            document.getElementById('periode-empty').classList.toggle('hidden', db.periode.length > 0);
-            tbody.innerHTML = db.periode.map(p => `
-                <tr class="hover:bg-slate-50/80">
+            const aktifList = db.periode.filter(p => p.aktif === true || p.aktif === "true");
+            const nonAktifList = db.periode.filter(p => p.aktif !== true && p.aktif !== "true");
+
+            const tbodyAktif = document.getElementById('periode-aktif-table-body');
+            document.getElementById('periode-aktif-empty').classList.toggle('hidden', aktifList.length > 0);
+            tbodyAktif.innerHTML = aktifList.map(p => `
+                <tr class="hover:bg-emerald-50/50">
                     <td class="py-4 px-6 font-bold text-slate-900">${p.nama}</td><td class="py-4 px-6 text-slate-600">${p.rentang}</td>
-                    <td class="py-4 px-6">${(p.aktif === true || p.aktif === "true") ? '<span class="bg-emerald-50 text-emerald-600 border border-emerald-100 text-xs font-bold px-3 py-1 rounded-full">Aktif Saat Ini</span>' : `<button onclick="setAktifPeriode('${p.id}')" class="text-xs font-bold text-slate-600 hover:text-brand-600 bg-slate-100 hover:bg-brand-50 px-3 py-1 rounded-lg">Aktifkan</button>`}</td>
-                    <td class="py-4 px-6 text-right"><button onclick="deletePeriode('${p.id}')" class="text-slate-400 hover:text-rose-600 p-2 rounded-lg hover:bg-rose-50"><i class="fas fa-trash-alt"></i></button></td>
+                    <td class="py-4 px-6"><span class="bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-black px-3 py-1.5 rounded-lg shadow-sm"><i class="fas fa-check-circle mr-1"></i> AKTIF SAAT INI</span></td>
+                    <td class="py-4 px-6 text-right"><button onclick="deletePeriode('${p.id}')" class="text-slate-400 hover:text-rose-600 p-2 rounded-lg hover:bg-rose-50 cursor-pointer"><i class="fas fa-trash-alt"></i></button></td>
                 </tr>
             `).join('');
-        }
 
-        function renderPanitia() {
-            const filterId = document.getElementById('filter-panitia-periode').value;
-            const list = db.panitia.filter(p => filterId === 'all' || p.periodeId === filterId);
-            document.getElementById('panitia-empty').classList.toggle('hidden', list.length > 0);
-            document.getElementById('panitia-table-body').innerHTML = list.map(p => `
-                <tr class="hover:bg-slate-50/80"><td class="py-4 px-6 font-bold text-slate-900">${p.nama}</td><td class="py-4 px-6"><span class="bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1 rounded-lg">${p.divisi}</span></td><td class="py-4 px-6 text-slate-600">${p.peran}</td><td class="py-4 px-6 text-right"><button onclick="deletePanitia('${p.id}')" class="text-slate-400 hover:text-rose-600 p-2"><i class="fas fa-trash-alt"></i></button></td></tr>
+            const tbodyNonAktif = document.getElementById('periode-nonaktif-table-body');
+            document.getElementById('periode-nonaktif-empty').classList.toggle('hidden', nonAktifList.length > 0);
+            tbodyNonAktif.innerHTML = nonAktifList.map(p => `
+                <tr class="hover:bg-slate-50/80">
+                    <td class="py-4 px-6 font-bold text-slate-700">${p.nama}</td><td class="py-4 px-6 text-slate-500">${p.rentang}</td>
+                    <td class="py-4 px-6"><button onclick="setAktifPeriode('${p.id}')" class="text-xs font-bold text-brand-700 hover:text-white border border-brand-200 hover:border-brand-600 hover:bg-brand-600 shadow-sm px-4 py-1.5 rounded-lg transition-all cursor-pointer">Pilih Jadi Aktif</button></td>
+                    <td class="py-4 px-6 text-right"><button onclick="deletePeriode('${p.id}')" class="text-slate-400 hover:text-rose-600 p-2 rounded-lg hover:bg-rose-50 cursor-pointer"><i class="fas fa-trash-alt"></i></button></td>
+                </tr>
             `).join('');
         }
 
         async function savePeriode(e) {
             e.preventDefault();
             const aktif = document.getElementById('periode-aktif').checked;
-            
-            if (aktif && db.periode.length > 0) {
-                showToast("Memperbarui status periode lain...", "info");
-                for (let p of db.periode) {
-                    if (p.aktif === true || p.aktif === "true") {
-                        p.aktif = false;
-                        if (p.id && !p.id.toString().startsWith('id_')) {
-                            // Gunakan format text/plain agar bebas dari CORS
-                            await fetch(API_URL, { 
-                                method: 'POST', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                                body: JSON.stringify({ sheetName: 'periode', action: "update", id: p.id, payload: p }) 
-                            });
-                        }
-                    }
-                }
-            }
-
+            if (aktif) { db.periode.forEach(p => p.aktif = false); } 
             const newP = { id: 'id_' + Date.now(), nama: document.getElementById('periode-nama').value, rentang: document.getElementById('periode-rentang').value, aktif: aktif || db.periode.length === 0, createdAt: Date.now() };
             await saveToServer('periode', newP);
+            
+            // Update the others to inactive if this one was set to active
+            if (aktif) {
+                db.periode.forEach(p => { 
+                    if(p.id !== newP.id) {
+                        const payloadReq = { sheetName: 'periode', action: 'update', id: p.id, payload: p };
+                        fetch(API_URL, { method: 'POST', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payloadReq) }); 
+                    }
+                });
+            }
             closeModal('modal-periode'); e.target.reset();
         }
 
         async function setAktifPeriode(id) {
-            showToast("Mengubah periode aktif...", "info");
+            db.periode.forEach(p => p.aktif = (String(p.id) === String(id)));
+            refreshAllViews();
+            showToast("Periode berhasil diaktifkan!");
+            
             for (let p of db.periode) {
-                let statusAktif = (p.id === id);
-                if (p.aktif !== statusAktif) {
-                    p.aktif = statusAktif;
-                    if (p.id && !p.id.toString().startsWith('id_')) {
-                        await fetch(API_URL, { 
-                            method: 'POST', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                            body: JSON.stringify({ sheetName: 'periode', action: "update", id: p.id, payload: p }) 
-                        });
-                    }
-                }
+                const payloadReq = { sheetName: 'periode', action: 'update', id: p.id, payload: p };
+                fetch(API_URL, { method: 'POST', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payloadReq) });
             }
-            await loadAllData();
-            showToast("Periode aktif berhasil diubah!");
         }
-        
-        async function deletePeriode(id) { if(confirm("Hapus periode ini?")) await saveToServer('periode', { id }, true); }
+        async function deletePeriode(id) { await saveToServer('periode', { id }, true); }
+
+        function renderPanitia() {
+            const filterId = document.getElementById('filter-panitia-periode').value;
+            const list = db.panitia.filter(p => filterId === 'all' || String(p.periodeId) === String(filterId));
+            document.getElementById('panitia-empty').classList.toggle('hidden', list.length > 0);
+            document.getElementById('panitia-table-body').innerHTML = list.map(p => `
+                <tr class="hover:bg-slate-50/80"><td class="py-4 px-6 font-bold text-slate-900">${p.nama}</td><td class="py-4 px-6"><span class="bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1 rounded-lg">${p.divisi}</span></td><td class="py-4 px-6 text-slate-600">${p.peran}</td><td class="py-4 px-6 text-right"><button onclick="deletePanitia('${p.id}')" class="text-slate-400 hover:text-rose-600 p-2 cursor-pointer"><i class="fas fa-trash-alt"></i></button></td></tr>
+            `).join('');
+        }
+
         async function savePanitia(e) {
             e.preventDefault();
             const newP = { id: 'id_' + Date.now(), periodeId: document.getElementById('panitia-periode').value, nama: document.getElementById('panitia-nama').value, divisi: document.getElementById('panitia-divisi').value, peran: document.getElementById('panitia-peran').value, createdAt: Date.now() };
@@ -855,7 +862,7 @@
         
         function populatePicDropdowns() {
             const pId = document.getElementById('tugas-periode').value;
-            const html = '<option value="">Pilih...</option>' + db.panitia.filter(p => !pId || p.periodeId === pId).map(p => `<option value="${p.nama}">${p.nama}</option>`).join('');
+            const html = '<option value="">Pilih...</option>' + db.panitia.filter(p => !pId || String(p.periodeId) === String(pId)).map(p => `<option value="${p.nama}">${p.nama}</option>`).join('');
             document.getElementById('tugas-pic-pelaksanaan').innerHTML = html;
         }
 
@@ -867,21 +874,24 @@
         
         function renderTugas() {
             const filterId = document.getElementById('filter-tugas-periode').value;
-            const list = db.tugas.filter(t => filterId === 'all' || t.periodeId === filterId);
+            const list = db.tugas.filter(t => filterId === 'all' || String(t.periodeId) === String(filterId));
+            
+            document.getElementById(`col-todo`).innerHTML = ''; document.getElementById(`col-doing`).innerHTML = ''; document.getElementById(`col-done`).innerHTML = '';
+
             ['todo', 'doing', 'done'].forEach(status => {
                 const arr = list.filter(t => t.status === status);
                 document.getElementById(`count-${status}`).innerText = arr.length;
                 document.getElementById(`col-${status}`).innerHTML = arr.map(t => `
-                    <div class="bg-white rounded-2xl p-4 border shadow-sm relative group text-xs">
+                    <div class="bg-white rounded-2xl p-4 border shadow-sm relative group text-xs transform transition-transform hover:-translate-y-1">
                         <div class="flex justify-between items-start mb-2"><h4 class="font-extrabold text-sm">${t.judul}</h4></div>
                         <div class="text-slate-600 mb-2">PIC: <span class="font-bold">${t.picPelaksanaan}</span></div>
-                        <div class="flex justify-between items-center pt-2 border-t">
-                            <div class="flex gap-1">
-                                ${t.status !== 'todo' ? `<button onclick="updateTaskStatus('${t.id}', 'todo')" class="p-1.5 bg-slate-100 rounded-lg text-slate-600"><i class="fas fa-arrow-left"></i></button>` : ''}
-                                ${t.status !== 'doing' ? `<button onclick="updateTaskStatus('${t.id}', 'doing')" class="p-1.5 bg-amber-50 rounded-lg text-amber-600"><i class="fas fa-spinner"></i></button>` : ''}
-                                ${t.status !== 'done' ? `<button onclick="updateTaskStatus('${t.id}', 'done')" class="p-1.5 bg-emerald-50 rounded-lg text-emerald-600"><i class="fas fa-check"></i></button>` : ''}
+                        <div class="flex justify-between items-center pt-2 border-t mt-3">
+                            <div class="flex gap-1.5">
+                                ${status !== 'todo' ? `<button onclick="updateTaskStatus('${t.id}', 'todo')" class="p-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 cursor-pointer" title="Kembalikan ke Belum Mulai"><i class="fas fa-arrow-left"></i></button>` : ''}
+                                ${status !== 'doing' ? `<button onclick="updateTaskStatus('${t.id}', 'doing')" class="p-2 bg-amber-50 hover:bg-amber-100 rounded-lg text-amber-600 cursor-pointer" title="Pindah ke Sedang Proses"><i class="fas fa-spinner"></i></button>` : ''}
+                                ${status !== 'done' ? `<button onclick="updateTaskStatus('${t.id}', 'done')" class="p-2 bg-emerald-50 hover:bg-emerald-100 rounded-lg text-emerald-600 cursor-pointer" title="Tandai Selesai"><i class="fas fa-check"></i></button>` : ''}
                             </div>
-                            <button onclick="deleteTugas('${t.id}')" class="text-slate-400 hover:text-rose-600 p-1.5 rounded-lg"><i class="fas fa-trash-alt"></i></button>
+                            <button onclick="deleteTugas('${t.id}')" class="text-slate-300 hover:text-rose-600 p-2 rounded-lg cursor-pointer"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </div>
                 `).join('');
@@ -889,14 +899,15 @@
         }
 
         async function updateTaskStatus(id, newStatus) {
-            const t = db.tugas.find(x => x.id === id);
+            // Karena saveToServer sekarang cerdas (mendukung action: 'update'), data tidak akan duplikat
+            const t = db.tugas.find(x => String(x.id) === String(id));
             if (t) { t.status = newStatus; await saveToServer('tugas', t); }
         }
         async function deleteTugas(id) { await saveToServer('tugas', { id }, true); }
 
         function renderRundown() {
             const filterId = document.getElementById('filter-rundown-periode').value;
-            const list = db.rundown.filter(r => filterId === 'all' || r.periodeId === filterId).sort((a,b) => a.mulai.localeCompare(b.mulai));
+            const list = db.rundown.filter(r => filterId === 'all' || String(r.periodeId) === String(filterId)).sort((a,b) => (a.mulai||"").localeCompare(b.mulai||""));
             document.getElementById('rundown-empty').classList.toggle('hidden', list.length > 0);
             document.getElementById('rundown-timeline').innerHTML = list.map(r => `
                 <div class="relative flex items-start gap-6">
@@ -907,7 +918,7 @@
                             <h4 class="font-extrabold text-slate-900 text-base mt-1">${r.kegiatan}</h4>
                             <p class="text-xs text-slate-500">PIC: <span class="font-bold">${r.pic}</span></p>
                         </div>
-                        <button onclick="deleteRundown('${r.id}')" class="text-slate-400 hover:text-rose-600 p-2"><i class="fas fa-trash-alt"></i></button>
+                        <button onclick="deleteRundown('${r.id}')" class="text-slate-400 hover:text-rose-600 p-2 cursor-pointer"><i class="fas fa-trash-alt"></i></button>
                     </div>
                 </div>
             `).join('');
@@ -915,41 +926,108 @@
 
         async function saveRundown(e) {
             e.preventDefault();
-            const newR = { id: 'id_' + Date.now(), periodeId: document.getElementById('rundown-periode').value, hari: document.getElementById('rundown-hari').value, mulai: document.getElementById('rundown-mulai').value, selesai: document.getElementById('rundown-selesai').value, kegiatan: document.getElementById('rundown-kegiatan').value, pic: document.getElementById('rundown-pic').value, kategoriUsia: "", createdAt: Date.now() };
+            const pId = document.getElementById('rundown-periode').value;
+            const hari = document.getElementById('rundown-hari').value;
+            const mulai = document.getElementById('rundown-mulai').value;
+            
+            // Validasi Murni Pencegahan Bentrok Waktu (Hari dan Jam persis sama)
+            const isConflict = db.rundown.find(r => String(r.periodeId) === String(pId) && r.hari === hari && r.mulai === mulai);
+            if (isConflict) {
+                showToast(`Jadwal jam ${mulai} pada ${hari} sudah terpakai!`, "error");
+                return; // Stop proses penyimpanan
+            }
+
+            const newR = { id: 'id_' + Date.now(), periodeId: pId, hari: hari, mulai: mulai, selesai: document.getElementById('rundown-selesai').value, kegiatan: document.getElementById('rundown-kegiatan').value, pic: document.getElementById('rundown-pic').value, kategoriUsia: "", createdAt: Date.now() };
             await saveToServer('rundown', newR); closeModal('modal-rundown'); e.target.reset();
         }
         async function deleteRundown(id) { await saveToServer('rundown', { id }, true); }
 
         function renderPerlombaan() {
             const filterId = document.getElementById('filter-perlombaan-periode').value;
-            const list = db.perlombaan.filter(l => filterId === 'all' || l.periodeId === filterId);
+            const list = db.perlombaan.filter(l => filterId === 'all' || String(l.periodeId) === String(filterId));
             document.getElementById('perlombaan-empty').classList.toggle('hidden', list.length > 0);
+            
             document.getElementById('perlombaan-grid').innerHTML = list.map(l => {
                 const peserta = Array.isArray(l.peserta) ? l.peserta : [];
-                let bagan = Array.isArray(l.bagan) ? l.bagan : [];
+                
+                let baganHTML = '';
+                if (l.bagan && l.bagan.penyisihan && l.bagan.penyisihan.length > 0) {
+                    const penyisihan = l.bagan.penyisihan;
+                    const final = l.bagan.final;
+                    
+                    baganHTML += `<div class="mb-2 text-[10px] font-black text-brand-500 uppercase tracking-widest mt-4">Babak Penyisihan</div>`;
+                    baganHTML += `<div class="space-y-2.5 max-h-48 overflow-y-auto mb-4 bg-slate-50 p-2 rounded-xl border">`;
+                    penyisihan.forEach((match, mIdx) => {
+                        baganHTML += `
+                            <div class="bg-slate-900 text-white p-3 rounded-2xl text-xs shadow-inner">
+                                <div class="flex justify-between border-b border-slate-700 pb-1 mb-2"><span class="font-extrabold text-accent-400 text-[10px]">PARTAI ${mIdx + 1}</span></div>
+                                <div class="grid grid-cols-3 gap-1.5 text-center">
+                                    ${match.contestants.map(c => `
+                                        <button onclick="selectWinnerPenyisihan('${l.id}', ${mIdx}, '${c}')" ${match.winner ? 'disabled' : ''} class="p-2 rounded-xl font-bold truncate text-[10px] ${match.winner === c ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 shadow-md' : match.winner ? 'bg-slate-800 opacity-50 cursor-not-allowed' : 'bg-slate-800 hover:bg-brand-700 cursor-pointer transition-colors'}">${c}</button>
+                                    `).join('')}
+                                </div>
+                                ${match.winner ? `<div class="text-center text-[10px] text-emerald-400 font-bold pt-2 mt-1">Pemenang: ${match.winner}</div>` : ''}
+                            </div>
+                        `;
+                    });
+                    baganHTML += `</div>`;
+
+                    // Tombol lanjut final jika semua partai penyisihan sudah ada pemenangnya
+                    const allPenyisihanDone = penyisihan.every(m => m.winner !== null && m.winner !== "");
+                    if (allPenyisihanDone && !final) {
+                        baganHTML += `<button onclick="buatFinal('${l.id}')" class="w-full text-xs font-bold text-white bg-gradient-to-r from-brand-600 to-brand-800 py-3 rounded-xl mb-3 shadow-lg hover:shadow-brand-600/30 transition-all cursor-pointer transform hover:-translate-y-0.5">Lanjut ke Babak Final <i class="fas fa-arrow-right ml-1"></i></button>`;
+                    }
+
+                    // Tampilan Babak Final & Juara
+                    if (final) {
+                        baganHTML += `<div class="mb-2 text-[10px] font-black text-amber-500 uppercase tracking-widest mt-4 border-t pt-4">Babak Final & Gelar Juara</div>`;
+                        baganHTML += `
+                            <div class="bg-gradient-to-br from-amber-500 to-amber-700 text-white p-5 rounded-2xl text-xs shadow-lg relative overflow-hidden">
+                                <div class="absolute -right-4 -top-4 text-amber-400/30 text-6xl pointer-events-none"><i class="fas fa-trophy"></i></div>
+                                <div class="relative z-10 space-y-3.5">
+                                    <div class="flex items-center justify-between bg-black/20 p-2.5 rounded-xl border border-white/10">
+                                        <label class="font-extrabold text-[10px] uppercase tracking-wider text-amber-100 flex items-center gap-1.5"><i class="fas fa-medal text-yellow-300 text-base"></i> Juara 1</label>
+                                        <select onchange="setJuara('${l.id}', 'juara1', this.value)" class="bg-amber-900/80 border border-amber-400/30 rounded-lg px-2 py-1.5 text-white font-bold outline-none w-32 text-[10px] cursor-pointer">
+                                            <option value="">Pilih Juara...</option>
+                                            ${final.contestants.map(c => `<option value="${c}" ${final.juara1 === c ? 'selected' : ''}>${c}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                    <div class="flex items-center justify-between bg-black/20 p-2.5 rounded-xl border border-white/10">
+                                        <label class="font-extrabold text-[10px] uppercase tracking-wider text-amber-100 flex items-center gap-1.5"><i class="fas fa-medal text-slate-300 text-base"></i> Juara 2</label>
+                                        <select onchange="setJuara('${l.id}', 'juara2', this.value)" class="bg-amber-900/80 border border-amber-400/30 rounded-lg px-2 py-1.5 text-white font-bold outline-none w-32 text-[10px] cursor-pointer">
+                                            <option value="">Pilih Juara...</option>
+                                            ${final.contestants.map(c => `<option value="${c}" ${final.juara2 === c ? 'selected' : ''}>${c}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                    <div class="flex items-center justify-between bg-black/20 p-2.5 rounded-xl border border-white/10">
+                                        <label class="font-extrabold text-[10px] uppercase tracking-wider text-amber-100 flex items-center gap-1.5"><i class="fas fa-medal text-orange-400 text-base"></i> Juara 3</label>
+                                        <select onchange="setJuara('${l.id}', 'juara3', this.value)" class="bg-amber-900/80 border border-amber-400/30 rounded-lg px-2 py-1.5 text-white font-bold outline-none w-32 text-[10px] cursor-pointer">
+                                            <option value="">Pilih Juara...</option>
+                                            ${final.contestants.map(c => `<option value="${c}" ${final.juara3 === c ? 'selected' : ''}>${c}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+
                 return `
                     <div class="formal-card rounded-3xl p-6 shadow-premium">
                         <div class="flex justify-between items-start mb-3">
                             <div><span class="text-[10px] font-extrabold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-lg border">${l.kategoriUsia}</span><h3 class="text-xl font-extrabold mt-2">${l.namaLomba}</h3></div>
-                            <button onclick="deleteLomba('${l.id}')" class="text-slate-400 hover:text-rose-600 p-2"><i class="fas fa-trash-alt"></i></button>
+                            <button onclick="deleteLomba('${l.id}')" class="text-slate-400 hover:text-rose-600 p-2 cursor-pointer"><i class="fas fa-trash-alt"></i></button>
                         </div>
-                        <div class="mb-5 bg-slate-50 p-4 rounded-2xl border">
-                            <span class="text-xs font-extrabold text-slate-700">Daftar Peserta (${peserta.length})</span>
-                            <div class="flex gap-2 my-2"><input type="text" id="inp-peserta-${l.id}" placeholder="Nama peserta..." class="flex-1 px-3 py-2 bg-white border rounded-xl text-xs outline-none"><button onclick="addPeserta('${l.id}')" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs"><i class="fas fa-plus"></i></button></div>
-                            <div class="flex flex-wrap gap-1.5">${peserta.map((p, idx) => `<span class="inline-flex items-center gap-1 bg-white border text-xs px-2.5 py-1 rounded-lg font-semibold">${p} <button onclick="removePeserta('${l.id}', ${idx})" class="text-slate-400 hover:text-rose-600 ml-1"><i class="fas fa-times text-[10px]"></i></button></span>`).join('')}</div>
+                        <div class="mb-4 bg-slate-50 p-4 rounded-2xl border">
+                            <span class="text-[11px] font-extrabold text-slate-700">Daftar Peserta (${peserta.length})</span>
+                            <div class="flex gap-2 my-2">
+                                <input type="text" id="inp-peserta-${l.id}" placeholder="Nama peserta..." class="flex-1 px-3 py-2 bg-white border rounded-xl text-xs outline-none focus:border-brand-500">
+                                <button onclick="addPeserta('${l.id}')" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs shadow-sm cursor-pointer"><i class="fas fa-plus"></i> Tambah</button>
+                            </div>
+                            <div class="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto">${peserta.map((p, idx) => `<span class="inline-flex items-center gap-1 bg-white border text-[10px] px-2 py-1 rounded-lg font-semibold shadow-sm">${p} <button onclick="removePeserta('${l.id}', ${idx})" class="text-slate-400 hover:text-rose-600 ml-1 cursor-pointer"><i class="fas fa-times"></i></button></span>`).join('')}</div>
                         </div>
-                        <button onclick="buatBaganLomba('${l.id}')" class="w-full text-xs font-bold text-accent-700 bg-accent-50 py-2 rounded-xl mb-3 border border-accent-100">Susun Ulang Bagan Lomba</button>
-                        <div class="space-y-2.5 max-h-60 overflow-y-auto">
-                            ${bagan.map((match, mIdx) => `
-                                <div class="bg-slate-900 text-white p-3 rounded-2xl text-xs">
-                                    <div class="flex justify-between border-b border-slate-700 pb-1 mb-2"><span class="font-extrabold text-accent-400 text-[10px]">PARTAI ${mIdx + 1}</span></div>
-                                    <div class="grid grid-cols-3 gap-1.5 text-center">
-                                        ${match.contestants.map(c => `<button onclick="selectWinner('${l.id}', ${mIdx}, '${c}')" ${match.winner ? 'disabled' : ''} class="p-2 rounded-xl font-bold truncate text-xs ${match.winner === c ? 'bg-emerald-600 text-white ring-2 ring-emerald-400' : match.winner ? 'bg-slate-800 opacity-50 cursor-not-allowed' : 'bg-slate-800 hover:bg-brand-700'}">${c || 'BYE'}</button>`).join('')}
-                                    </div>
-                                    ${match.winner ? `<div class="text-center text-[10px] text-emerald-400 font-bold pt-2">Pemenang: ${match.winner}</div>` : ''}
-                                </div>
-                            `).join('')}
-                        </div>
+                        <button onclick="buatBaganLomba('${l.id}')" class="w-full text-xs font-bold text-accent-700 bg-accent-50 py-2.5 rounded-xl border border-accent-100 hover:bg-accent-100 transition-colors cursor-pointer shadow-sm"><i class="fas fa-sitemap mr-1"></i> Susun Ulang Bagan Lomba</button>
+                        ${baganHTML}
                     </div>
                 `;
             }).join('');
@@ -957,36 +1035,66 @@
 
         async function saveLomba(e) {
             e.preventDefault();
-            const newL = { id: 'id_' + Date.now(), periodeId: document.getElementById('lomba-periode').value, namaLomba: document.getElementById('lomba-nama').value, kategoriUsia: document.getElementById('lomba-kategori').value, jenisLomba: document.getElementById('lomba-jenis').value, peserta: [], bagan: [], createdAt: Date.now() };
+            const newL = { id: 'id_' + Date.now(), periodeId: document.getElementById('lomba-periode').value, namaLomba: document.getElementById('lomba-nama').value, kategoriUsia: document.getElementById('lomba-kategori').value, jenisLomba: document.getElementById('lomba-jenis').value, peserta: [], bagan: { penyisihan: [], final: null }, createdAt: Date.now() };
             await saveToServer('perlombaan', newL); closeModal('modal-lomba'); e.target.reset();
         }
         async function deleteLomba(id) { await saveToServer('perlombaan', { id }, true); }
+        
         async function addPeserta(id) {
             const inp = document.getElementById(`inp-peserta-${id}`);
             if(!inp.value.trim()) return;
-            const l = db.perlombaan.find(x => x.id === id);
-            if(l) { l.peserta.push(inp.value.trim()); await saveToServer('perlombaan', l); }
+            const l = db.perlombaan.find(x => String(x.id) === String(id));
+            if(l) { 
+                l.peserta.push(inp.value.trim()); 
+                await saveToServer('perlombaan', l); // Action akan otomatis dibaca Update
+                inp.value = ''; 
+            }
         }
         async function removePeserta(id, idx) {
-            const l = db.perlombaan.find(x => x.id === id);
+            const l = db.perlombaan.find(x => String(x.id) === String(id));
             if(l) { l.peserta.splice(idx, 1); await saveToServer('perlombaan', l); }
         }
         async function buatBaganLomba(id) {
-            const l = db.perlombaan.find(x => x.id === id);
+            const l = db.perlombaan.find(x => String(x.id) === String(id));
             if(l) {
-                let s = [...l.peserta], b = [];
-                for(let i=0; i<s.length; i+=3) { let g = s.slice(i, i+3); while(g.length<3) g.push('BYE (Lolos)'); b.push({ contestants: g, winner: null }); }
-                l.bagan = b; await saveToServer('perlombaan', l);
+                let s = [...l.peserta], p = [];
+                s.sort(() => Math.random() - 0.5); // Acak
+                for(let i=0; i<s.length; i+=3) { 
+                    let g = s.slice(i, i+3); 
+                    while(g.length<3) g.push('BYE (Lolos)'); 
+                    p.push({ contestants: g, winner: null }); 
+                }
+                l.bagan = { penyisihan: p, final: null }; 
+                await saveToServer('perlombaan', l);
             }
         }
-        async function selectWinner(id, mIdx, wName) {
-            const l = db.perlombaan.find(x => x.id === id);
-            if(l && l.bagan[mIdx]) { l.bagan[mIdx].winner = wName; await saveToServer('perlombaan', l); }
+        async function selectWinnerPenyisihan(id, mIdx, wName) {
+            const l = db.perlombaan.find(x => String(x.id) === String(id));
+            if(l && l.bagan && l.bagan.penyisihan[mIdx]) { 
+                l.bagan.penyisihan[mIdx].winner = wName; 
+                await saveToServer('perlombaan', l); 
+            }
+        }
+        async function buatFinal(id) {
+            const l = db.perlombaan.find(x => String(x.id) === String(id));
+            if(l && l.bagan && l.bagan.penyisihan) {
+                // Ambil pemenang, abaikan "BYE" murni
+                const winners = l.bagan.penyisihan.map(m => m.winner).filter(w => w && !w.startsWith('BYE'));
+                l.bagan.final = { contestants: winners, juara1: '', juara2: '', juara3: '' };
+                await saveToServer('perlombaan', l);
+            }
+        }
+        async function setJuara(id, posisi, wName) {
+            const l = db.perlombaan.find(x => String(x.id) === String(id));
+            if(l && l.bagan && l.bagan.final) { 
+                l.bagan.final[posisi] = wName; 
+                await saveToServer('perlombaan', l); 
+            }
         }
 
         function renderKeuangan() {
             const filterId = document.getElementById('filter-keuangan-periode').value;
-            const list = db.keuangan.filter(k => filterId === 'all' || k.periodeId === filterId);
+            const list = db.keuangan.filter(k => filterId === 'all' || String(k.periodeId) === String(filterId));
             let totalIn = 0, totalOut = 0;
             list.forEach(k => { const amt = Number(k.jumlah)||0; if(k.tipe === 'in') totalIn+=amt; else totalOut+=amt; });
             document.getElementById('stat-pemasukan').innerText = 'Rp ' + totalIn.toLocaleString('id-ID');
@@ -996,7 +1104,7 @@
             document.getElementById('keuangan-empty').classList.toggle('hidden', list.length > 0);
             document.getElementById('keuangan-table-body').innerHTML = list.map(k => {
                 const isIn = k.tipe === 'in';
-                return `<tr class="hover:bg-slate-50"><td class="py-3 px-6"><span class="px-2 py-1 rounded-full text-[10px] font-bold ${isIn ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}">${isIn?'Masuk':'Keluar'}</span></td><td class="py-3 px-6 font-bold text-slate-900">${k.keterangan}</td><td class="py-3 px-6 text-right font-mono font-bold ${isIn?'text-emerald-600':'text-rose-600'}">${isIn?'+':'-'} Rp ${Number(k.jumlah).toLocaleString('id-ID')}</td><td class="py-3 px-6 text-center"><button onclick="deleteKeuangan('${k.id}')" class="text-slate-400 hover:text-rose-600 p-2"><i class="fas fa-trash-alt"></i></button></td></tr>`;
+                return `<tr class="hover:bg-slate-50"><td class="py-3 px-6"><span class="px-2 py-1 rounded-full text-[10px] font-bold ${isIn ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}">${isIn?'Masuk':'Keluar'}</span></td><td class="py-3 px-6 font-bold text-slate-900">${k.keterangan}</td><td class="py-3 px-6 text-right font-mono font-bold ${isIn?'text-emerald-600':'text-rose-600'}">${isIn?'+':'-'} Rp ${Number(k.jumlah).toLocaleString('id-ID')}</td><td class="py-3 px-6 text-center"><button onclick="deleteKeuangan('${k.id}')" class="text-slate-400 hover:text-rose-600 p-2 cursor-pointer"><i class="fas fa-trash-alt"></i></button></td></tr>`;
             }).join('');
         }
 
